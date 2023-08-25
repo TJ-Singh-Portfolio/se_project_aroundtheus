@@ -1,0 +1,14 @@
+.header {
+  border-bottom: 1px solid #545454;
+  width: 68.75%;
+  margin: 0 auto 0;
+  padding-top: 3.515625%;
+}
+
+.header__title {
+  margin: 0;
+}
+
+.header__logo {
+  padding-bottom: 4.6590909090909090909090909%;
+}
