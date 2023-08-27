@@ -1,0 +1,50 @@
+.profile {
+  margin: auto;
+  width: 68.75%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 3.984375%;
+  align-items: center;
+}
+
+.profile__image {
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  margin-right: 30px;
+}
+
+.profile__text-container {
+}
+
+.profile__name {
+  color: #fff;
+  margin: 0 0 7px 0;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 1.14285714;
+}
+
+.profile__description {
+  color: #fff;
+  margin: 0;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.21;
+}
+
+.profile__edit-button {
+  width: 1.136363636%;
+  height: 20%;
+}
+
+.profile__add-button {
+  width: 2.5%;
+  height: 18.3%;
+  margin-left: 300px;
+}
