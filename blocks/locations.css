@@ -1,7 +1,7 @@
 .locations {
   width: 68.75%;
   margin: auto;
-  margin-bottom: 7.6136%;
+  margin-bottom: 5.234%;
 }
 
 .locations__cards {
@@ -57,4 +57,11 @@
 .locations__card-like {
   margin-right: 20px;
   height: 61.96%;
+}
+
+@media screen and (max-width: 320px) {
+  .locations {
+    width: 88.125%;
+    margin-bottom: 15%;
+  }
 }

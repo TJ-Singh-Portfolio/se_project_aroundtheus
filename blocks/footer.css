@@ -11,3 +11,14 @@
   font-size: 18px;
   line-height: 1.21;
 }
+
+@media screen and (max-width: 320px) {
+  .footer {
+    width: 88.125%;
+  }
+  .footer__copyright {
+    font-size: 14px;
+    line-height: 1.21;
+    padding-bottom: 12.76595%;
+  }
+}
