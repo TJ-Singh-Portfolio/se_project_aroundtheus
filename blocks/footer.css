@@ -1,6 +1,4 @@
 .footer {
-  width: 68.75%;
-  margin: auto;
 }
 .footer__copyright {
   color: #545454;
@@ -10,11 +8,11 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 1.21;
+  margin: 0;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (min-width: 320px) and (max-width: 582px) {
   .footer {
-    width: 88.125%;
   }
   .footer__copyright {
     font-size: 14px;

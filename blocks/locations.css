@@ -1,7 +1,5 @@
 .locations {
-  width: 68.75%;
-  margin: auto;
-  margin-bottom: 5.234%;
+  margin-bottom: 7.613%;
 }
 
 .locations__cards {
@@ -55,13 +53,22 @@
 }
 
 .locations__card-like {
+  background: transparent url("../images/like-button.svg") center;
+  border: none;
   margin-right: 20px;
-  height: 61.96%;
+  height: 18px;
+  width: 21px;
+  opacity: 100%;
+  transition: opacity 0.5s linear;
 }
 
-@media screen and (max-width: 320px) {
+.locations__card-like:hover {
+  opacity: 50%;
+}
+
+@media screen and (min-width: 320px) and (max-width: 582px) {
   .locations {
-    width: 88.125%;
+    width: 100%;
     margin-bottom: 15%;
   }
 }
