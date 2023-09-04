@@ -16,10 +16,6 @@
   background-color: #fff;
   border-radius: 10px;
   overflow: hidden;
-  height: 361px;
-}
-
-.locations__card {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -28,7 +24,7 @@
 
 .locations__card-image {
   width: 100%;
-  height: 78.116343%;
+  height: 282px;
 }
 
 .locations__bottom-container {
@@ -42,7 +38,7 @@
 .locations__card-text {
   margin: 0;
   margin-left: 20px;
-  font-family: "Inter" Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-style: normal;
   font-weight: 900;
   font-size: 24px;
@@ -68,7 +64,8 @@
 
 @media screen and (min-width: 320px) and (max-width: 582px) {
   .locations {
-    width: 100%;
+    max-width: 282px;
+    margin: auto;
     margin-bottom: 15%;
   }
 }

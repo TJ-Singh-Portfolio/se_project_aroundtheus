@@ -1,5 +1,3 @@
-.footer {
-}
 .footer__copyright {
   color: #545454;
   padding-bottom: 6.818%;
@@ -13,10 +11,11 @@
 
 @media screen and (min-width: 320px) and (max-width: 582px) {
   .footer {
+    max-width: 282px;
+    margin: auto;
   }
   .footer__copyright {
     font-size: 14px;
-    line-height: 1.21;
     padding-bottom: 12.76595%;
   }
 }
