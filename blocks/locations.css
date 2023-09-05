@@ -33,6 +33,7 @@
   margin-top: 25px;
   align-items: center;
   max-width: 282px;
+  margin-bottom: 25px;
 }
 
 .locations__card-text {
@@ -46,6 +47,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 220px;
 }
 
 .locations__card-like {
