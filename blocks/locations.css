@@ -58,6 +58,7 @@
   width: 21px;
   opacity: 100%;
   transition: opacity 0.5s linear;
+  cursor: pointer;
 }
 
 .locations__card-like:hover {
