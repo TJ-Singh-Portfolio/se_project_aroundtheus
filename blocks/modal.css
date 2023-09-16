@@ -78,13 +78,13 @@
 
 .modal__close {
   position: absolute;
+  left: calc(100% + 5px);
+  bottom: calc(100% + 5px);
   background: transparent url(../images/close-icon.svg) center no-repeat;
   background-size: contain;
   height: 40px;
   width: 40px;
   border: none;
-  left: calc(100% + 5px);
-  bottom: calc(100% + 5px);
   padding: 0;
   cursor: pointer;
 }
