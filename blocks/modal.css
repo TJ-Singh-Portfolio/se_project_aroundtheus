@@ -5,6 +5,7 @@
   bottom: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
   display: none;
 }
 
@@ -78,11 +79,12 @@
 .modal__close {
   position: absolute;
   background: transparent url(../images/close-icon.svg) center no-repeat;
+  background-size: contain;
   height: 40px;
   width: 40px;
   border: none;
-  left: 430px;
-  top: -40px;
+  left: calc(100% + 5px);
+  bottom: calc(100% + 5px);
   padding: 0;
   cursor: pointer;
 }
@@ -118,7 +120,7 @@
   .modal__close {
     height: 26px;
     width: 26px;
-    left: 245px;
-    top: -40px;
+    left: 87%;
+    bottom: calc(100% + 14px);
   }
 }
