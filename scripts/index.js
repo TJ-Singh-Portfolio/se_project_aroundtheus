@@ -41,6 +41,8 @@ const modalInputDescription = document.querySelector(
   ".modal__input-description"
 );
 
+const cardTemplate = document.querySelector("#locations-card");
+
 function toggleModal() {
   modal.classList.toggle("modal_opened");
 }
@@ -63,3 +65,7 @@ function updateModal(event) {
 document
   .querySelector(".modal__container")
   .addEventListener("submit", updateModal);
+
+  getCardElement(data) {
+
+  }
