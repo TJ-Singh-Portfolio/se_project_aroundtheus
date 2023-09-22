@@ -31,6 +31,16 @@ const profileEditButton = document.querySelector(".profile__edit-button");
 
 const modalClose = document.querySelector(".modal__close");
 
+const profileName = document.querySelector(".profile__name");
+
+const profileDescription = document.querySelector(".profile__description");
+
+const modalInputName = document.querySelector(".modal__input-name");
+
+const modalInputDescription = document.querySelector(
+  ".modal__input-description"
+);
+
 function toggleModal() {
   modal.classList.toggle("modal_opened");
 }
@@ -38,3 +48,18 @@ function toggleModal() {
 profileEditButton.addEventListener("click", toggleModal);
 
 modalClose.addEventListener("click", toggleModal);
+
+modalInputName.value = profileName.textContent;
+
+modalInputDescription.value = profileDescription.textContent;
+
+function updateModal(event) {
+  profileName.textContent = modalInputName.value;
+  profileDescription.textContent = modalInputDescription.value;
+  event.preventDefault();
+  toggleModal();
+}
+
+document
+  .querySelector(".modal__container")
+  .addEventListener("submit", updateModal);
