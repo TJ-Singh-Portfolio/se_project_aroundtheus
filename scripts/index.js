@@ -67,11 +67,16 @@ document
   .addEventListener("submit", updateModal);
 
 function getCardElement(data) {
-  let cardElement = cardTemplate.content;
+  let cardElement = cardTemplate.content.cloneNode(true);
   let cardTitle = cardElement.querySelector(".locations__card-text");
   let cardImage = cardElement.querySelector(".locations__card-image");
-
-  console.log(cardElement);
+  cardImage.setAttribute("src", data.link);
+  cardImage.setAttribute("alt", data.name);
+  cardTitle.textContent = data.name;
+  return cardElement;
 }
 
-getCardElement();
+for (let i = 0; i < initialCards.length; i++) {
+  let cardNode = getCardElement(initialCards[i]);
+  document.querySelector(".locations__cards").append(cardNode);
+}
