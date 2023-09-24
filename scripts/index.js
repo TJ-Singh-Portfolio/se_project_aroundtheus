@@ -45,8 +45,12 @@ const modalInputDescription = document.querySelector(
 
 const cardTemplate = document.querySelector("#locations-card");
 
-function toggleModal() {
-  profileEditModal.classList.toggle("modal_opened");
+function openModal(modal) {
+  modal.classList.add("modal_opened");
+}
+
+function closeModal(modal) {
+  modal.classList.remove("modal_opened");
 }
 
 function fillProfileForm() {
@@ -56,15 +60,15 @@ function fillProfileForm() {
 
 fillProfileForm();
 
-profileEditButton.addEventListener("click", toggleModal);
+profileEditButton.addEventListener("click", openModal(profileEditModal));
 
-modalClose.addEventListener("click", toggleModal);
+modalClose.addEventListener("click", closeModal(profileEditModal));
 
 function updateModal(event) {
   profileName.textContent = modalInputName.value;
   profileDescription.textContent = modalInputDescription.value;
   event.preventDefault();
-  toggleModal();
+  closeModal(profileEditModal);
 }
 
 modalContainer.addEventListener("submit", updateModal);
