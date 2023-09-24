@@ -25,7 +25,9 @@ const initialCards = [
   },
 ];
 
-const modal = document.querySelector(".modal");
+const profileEditModal = document.querySelector(".modal");
+
+const modalContainer = document.querySelector(".modal__container");
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 
@@ -44,12 +46,15 @@ const modalInputDescription = document.querySelector(
 const cardTemplate = document.querySelector("#locations-card");
 
 function toggleModal() {
-  modal.classList.toggle("modal_opened");
+  profileEditModal.classList.toggle("modal_opened");
 }
 
-modalInputName.value = profileName.textContent;
+function fillProfileForm() {
+  modalInputName.value = profileName.textContent;
+  modalInputDescription.value = profileDescription.textContent;
+}
 
-modalInputDescription.value = profileDescription.textContent;
+fillProfileForm();
 
 profileEditButton.addEventListener("click", toggleModal);
 
@@ -62,9 +67,7 @@ function updateModal(event) {
   toggleModal();
 }
 
-document
-  .querySelector(".modal__container")
-  .addEventListener("submit", updateModal);
+modalContainer.addEventListener("submit", updateModal);
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content.cloneNode(true);
