@@ -27,7 +27,7 @@ const initialCards = [
 
 const profileEditModal = document.querySelector("#edit-modal");
 
-const modalContainer = document.querySelector(".modal__container");
+const profileModalContainer = document.querySelector(".modal__container");
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 
@@ -47,7 +47,13 @@ const modalInputDescription = document.querySelector(
 
 const newPlaceModal = document.querySelector("#add-card-modal");
 
+const newPlaceModalContainer = newPlaceModal.querySelector(".modal__container");
+
 const cardModalClose = newPlaceModal.querySelector(".modal__close");
+
+const newPlaceTitle = newPlaceModal.querySelector(".modal__input-title");
+
+const newPlaceLink = newPlaceModal.querySelector(".modal__input-link");
 
 const cardTemplate = document.querySelector("#locations-card");
 
@@ -66,14 +72,14 @@ profileEditButton.addEventListener("click", toggleModal);
 
 editModalClose.addEventListener("click", toggleModal);
 
-function updateModal(event) {
+function updateProfileModal(event) {
   profileName.textContent = modalInputName.value;
   profileDescription.textContent = modalInputDescription.value;
   event.preventDefault();
   toggleModal();
 }
 
-modalContainer.addEventListener("submit", updateModal);
+profileModalContainer.addEventListener("submit", updateProfileModal);
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content.cloneNode(true);
@@ -97,3 +103,14 @@ function toggleAddModal() {
 addCardButton.addEventListener("click", toggleAddModal);
 
 cardModalClose.addEventListener("click", toggleAddModal);
+
+function createCard(event) {
+  const name = newPlaceTitle.value;
+  const link = newPlaceLink.value;
+  const cardElement = getCardElement({ name, link });
+  document.querySelector(".locations__cards").prepend(cardElement);
+  event.preventDefault();
+  toggleAddModal();
+}
+
+newPlaceModalContainer.addEventListener("submit", createCard);
