@@ -70,7 +70,8 @@
         </footer>
       </div>
     </div>
-    <div class="modal">
+    <!-- Edit Modal -->
+    <div class="modal" id="edit-modal">
       <div class="modal__box">
         <form class="modal__container">
           <h3 class="modal__heading">Edit Profile</h3>
@@ -98,6 +99,36 @@
         <button class="modal__close" type="button"></button>
       </div>
     </div>
+    <!-- Add Card Modal -->
+    <div class="modal" id="add-card-modal">
+      <div class="modal__box">
+        <form class="modal__container">
+          <h3 class="modal__heading">New Place</h3>
+          <fieldset class="modal__fieldset">
+            <input
+              type="text"
+              class="modal__input modal__input-title"
+              id="image-title"
+              name="image-title"
+              placeholder="Title"
+              required
+            />
+
+            <input
+              type="text"
+              class="modal__input modal__input-link"
+              id="image-link"
+              name="image-link"
+              placeholder="Image link"
+              required
+            />
+          </fieldset>
+          <button class="modal__save" type="submit">Create</button>
+        </form>
+        <button class="modal__close" type="button"></button>
+      </div>
+    </div>
+
     <script src="scripts/index.js" defer></script>
   </body>
 </html>
