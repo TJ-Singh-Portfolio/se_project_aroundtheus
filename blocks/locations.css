@@ -20,11 +20,27 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
+  position: relative;
 }
 
 .locations__card-image {
   width: 100%;
   height: 282px;
+}
+
+.locations__card-delete {
+  height: 19px;
+  width: 18px;
+  position: absolute;
+  right: 15px;
+  top: 18px;
+  opacity: 100%;
+  transition: opacity 0.5s linear;
+  cursor: pointer;
+}
+
+.locations__card-delete:hover {
+  opacity: 60%;
 }
 
 .locations__bottom-container {
