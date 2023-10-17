@@ -86,10 +86,16 @@ function getCardElement(data) {
   const cardTitle = cardElement.querySelector(".locations__card-text");
   const cardImage = cardElement.querySelector(".locations__card-image");
   const likeButton = cardElement.querySelector(".locations__card-like");
+  const deleteButton = cardElement.querySelector(".locations__card-delete");
 
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("locations__card-like_active");
   });
+
+  deleteButton.addEventListener("click", () => {
+    cardElement.remove();
+  });
+
   cardImage.setAttribute("src", data.link);
   cardImage.setAttribute("alt", data.name);
   cardTitle.textContent = data.name;
