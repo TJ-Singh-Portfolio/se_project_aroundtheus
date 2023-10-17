@@ -86,7 +86,7 @@ function getCardElement(data) {
   const cardTitle = cardElement.querySelector(".locations__card-text");
   const cardImage = cardElement.querySelector(".locations__card-image");
   const likeButton = cardElement.querySelector(".locations__card-like");
-  console.dir(likeButton);
+
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("locations__card-like_active");
   });
