@@ -55,6 +55,10 @@ const newPlaceTitle = newPlaceModal.querySelector(".modal__input-title");
 
 const newPlaceLink = newPlaceModal.querySelector(".modal__input-link");
 
+const deleteCardButton = document.querySelectorAll(".locations__card-delete");
+
+const dCBArray = Array.from(deleteCardButton);
+
 const cardTemplate = document.querySelector("#locations-card");
 
 function toggleModal() {
@@ -114,3 +118,5 @@ function createCard(event) {
 }
 
 newPlaceModalContainer.addEventListener("submit", createCard);
+
+console.log(dCBArray);
