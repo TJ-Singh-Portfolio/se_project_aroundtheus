@@ -57,8 +57,21 @@ const newPlaceLink = newPlaceModal.querySelector(".modal__input-link");
 
 const cardTemplate = document.querySelector("#locations-card");
 
+const previewImageModal = document.querySelector("#preview-image-modal");
+
+const previewImageModalPicture = document.querySelector(".modal__image");
+
+const previewImageModalClose = previewImageModal.querySelector(".modal__close");
+
+const previewImageModalText =
+  previewImageModal.querySelector(".modal__image-text");
+
 function toggleModal() {
   profileEditModal.classList.toggle("modal_opened");
+}
+
+function togglePreviewModal() {
+  previewImageModal.classList.toggle("modal_opened");
 }
 
 function fillProfileForm() {
@@ -96,6 +109,12 @@ function getCardElement(data) {
     likeButton.classList.toggle("locations__card-like_active");
   });
 
+  cardImage.addEventListener("click", () => {
+    previewImageModal.classList.toggle("modal_opened");
+    previewImageModalPicture.setAttribute("src", data.link);
+    previewImageModalText.textContent = data.name;
+  });
+
   cardImage.setAttribute("src", data.link);
   cardImage.setAttribute("alt", data.name);
   cardTitle.textContent = data.name;
@@ -126,3 +145,5 @@ function createCard(event) {
 }
 
 newPlaceModalContainer.addEventListener("submit", createCard);
+
+previewImageModalClose.addEventListener("click", togglePreviewModal);

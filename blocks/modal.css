@@ -107,6 +107,30 @@
   opacity: 60%;
 }
 
+.modal__image-preview {
+  margin: auto;
+  margin-top: 90px;
+  position: relative;
+  max-width: 75vw;
+  max-height: 75vh;
+}
+
+.modal__image {
+  margin: auto;
+  max-width: 75vw;
+  max-height: 75vh;
+}
+
+.modal__image-text {
+  font-family: "Inter", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.21;
+  color: #fff;
+  margin: 10px 0 0 0;
+}
+
 @media screen and (min-width: 320px) and (max-width: 582px) {
   .modal__box {
     margin-top: 123px;
