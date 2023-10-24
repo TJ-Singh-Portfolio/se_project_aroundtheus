@@ -100,7 +100,7 @@ function getCardElement(data) {
   const cardImage = cardElement.querySelector(".locations__card-image");
   const likeButton = cardElement.querySelector(".locations__card-like");
   const deleteButton = cardElement.querySelector(".locations__card-delete");
-
+  // maybe remove cloneNode and also make the .remove() select the card with a query selector
   deleteButton.addEventListener("click", () => {
     cardElement.remove();
   });
