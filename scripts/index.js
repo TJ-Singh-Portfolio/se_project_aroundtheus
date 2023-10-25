@@ -95,12 +95,14 @@ function updateProfileModal(event) {
 profileModalContainer.addEventListener("submit", updateProfileModal);
 
 function getCardElement(data) {
-  const cardElement = cardTemplate.content.cloneNode(true);
+  const cardElement = cardTemplate.content
+    .cloneNode(true)
+    .querySelector(".locations__card-wrapper");
   const cardTitle = cardElement.querySelector(".locations__card-text");
   const cardImage = cardElement.querySelector(".locations__card-image");
   const likeButton = cardElement.querySelector(".locations__card-like");
   const deleteButton = cardElement.querySelector(".locations__card-delete");
-  // maybe remove cloneNode and also make the .remove() select the card with a query selector
+
   deleteButton.addEventListener("click", () => {
     cardElement.remove();
   });
