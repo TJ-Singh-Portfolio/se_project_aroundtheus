@@ -56,6 +56,8 @@ const newPlaceTitle = newPlaceModal.querySelector(".modal__input-title");
 
 const newPlaceLink = newPlaceModal.querySelector(".modal__input-link");
 
+const cardsContainer = document.querySelector(".locations__cards");
+
 const cardTemplate = document.querySelector("#locations-card");
 
 const previewImageModal = document.querySelector("#preview-image-modal");
@@ -67,12 +69,12 @@ const previewImageModalClose = previewImageModal.querySelector(".modal__close");
 const previewImageModalText =
   previewImageModal.querySelector(".modal__image-text");
 
-function toggleModal() {
-  profileEditModal.classList.toggle("modal_opened");
+function universalOpenModal(modal) {
+  modal.classList.add("modal_opened");
 }
 
-function togglePreviewModal() {
-  previewImageModal.classList.toggle("modal_opened");
+function universalCloseModal(modal) {
+  modal.classList.remove("modal_opened");
 }
 
 function fillProfileForm() {
@@ -82,15 +84,19 @@ function fillProfileForm() {
 
 fillProfileForm();
 
-profileEditButton.addEventListener("click", toggleModal);
+profileEditButton.addEventListener("click", () =>
+  universalOpenModal(profileEditModal)
+);
 
-editModalClose.addEventListener("click", toggleModal);
+editModalClose.addEventListener("click", () =>
+  universalCloseModal(profileEditModal)
+);
 
 function updateProfileModal(event) {
+  event.preventDefault();
   profileName.textContent = modalInputName.value;
   profileDescription.textContent = modalInputDescription.value;
-  event.preventDefault();
-  toggleModal();
+  universalCloseModal(profileEditModal);
 }
 
 profileModalContainer.addEventListener("submit", updateProfileModal);
@@ -113,7 +119,7 @@ function getCardElement(data) {
   });
 
   cardImage.addEventListener("click", () => {
-    previewImageModal.classList.toggle("modal_opened");
+    universalOpenModal(previewImageModal);
     previewImageModalPicture.setAttribute("src", data.link);
     previewImageModalPicture.setAttribute("alt", data.name);
     previewImageModalText.textContent = data.name;
@@ -131,24 +137,26 @@ initialCards.forEach(function (cardData) {
   document.querySelector(".locations__cards").append(cardNode);
 });
 
-function toggleAddModal() {
-  newPlaceModal.classList.toggle("modal_opened");
-}
+addCardButton.addEventListener("click", () =>
+  universalOpenModal(newPlaceModal)
+);
 
-addCardButton.addEventListener("click", toggleAddModal);
-
-cardModalClose.addEventListener("click", toggleAddModal);
+cardModalClose.addEventListener("click", () =>
+  universalCloseModal(newPlaceModal)
+);
 
 function createCard(event) {
+  event.preventDefault();
   const name = newPlaceTitle.value;
   const link = newPlaceLink.value;
   const cardElement = getCardElement({ name, link });
-  document.querySelector(".locations__cards").prepend(cardElement);
-  event.preventDefault();
-  toggleAddModal();
+  cardsContainer.prepend(cardElement);
+  universalCloseModal(newPlaceModal);
   newPlaceModalContainer.reset();
 }
 
 newPlaceModalContainer.addEventListener("submit", createCard);
 
-previewImageModalClose.addEventListener("click", togglePreviewModal);
+previewImageModalClose.addEventListener("click", () =>
+  universalCloseModal(previewImageModal)
+);
