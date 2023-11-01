@@ -69,11 +69,11 @@ const previewImageModalClose = previewImageModal.querySelector(".modal__close");
 const previewImageModalText =
   previewImageModal.querySelector(".modal__image-text");
 
-function universalOpenModal(modal) {
+function openModal(modal) {
   modal.classList.add("modal_opened");
 }
 
-function universalCloseModal(modal) {
+function closeModal(modal) {
   modal.classList.remove("modal_opened");
 }
 
@@ -84,19 +84,15 @@ function fillProfileForm() {
 
 fillProfileForm();
 
-profileEditButton.addEventListener("click", () =>
-  universalOpenModal(profileEditModal)
-);
+profileEditButton.addEventListener("click", () => openModal(profileEditModal));
 
-editModalClose.addEventListener("click", () =>
-  universalCloseModal(profileEditModal)
-);
+editModalClose.addEventListener("click", () => closeModal(profileEditModal));
 
 function updateProfileModal(event) {
   event.preventDefault();
   profileName.textContent = modalInputName.value;
   profileDescription.textContent = modalInputDescription.value;
-  universalCloseModal(profileEditModal);
+  closeModal(profileEditModal);
 }
 
 profileModalContainer.addEventListener("submit", updateProfileModal);
@@ -119,7 +115,7 @@ function getCardElement(data) {
   });
 
   cardImage.addEventListener("click", () => {
-    universalOpenModal(previewImageModal);
+    openModal(previewImageModal);
     previewImageModalPicture.setAttribute("src", data.link);
     previewImageModalPicture.setAttribute("alt", data.name);
     previewImageModalText.textContent = data.name;
@@ -137,13 +133,9 @@ initialCards.forEach(function (cardData) {
   document.querySelector(".locations__cards").append(cardNode);
 });
 
-addCardButton.addEventListener("click", () =>
-  universalOpenModal(newPlaceModal)
-);
+addCardButton.addEventListener("click", () => openModal(newPlaceModal));
 
-cardModalClose.addEventListener("click", () =>
-  universalCloseModal(newPlaceModal)
-);
+cardModalClose.addEventListener("click", () => closeModal(newPlaceModal));
 
 function createCard(event) {
   event.preventDefault();
@@ -151,12 +143,12 @@ function createCard(event) {
   const link = newPlaceLink.value;
   const cardElement = getCardElement({ name, link });
   cardsContainer.prepend(cardElement);
-  universalCloseModal(newPlaceModal);
+  closeModal(newPlaceModal);
   newPlaceModalContainer.reset();
 }
 
 newPlaceModalContainer.addEventListener("submit", createCard);
 
 previewImageModalClose.addEventListener("click", () =>
-  universalCloseModal(previewImageModal)
+  closeModal(previewImageModal)
 );
