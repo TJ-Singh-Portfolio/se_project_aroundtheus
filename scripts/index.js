@@ -25,14 +25,13 @@ const initialCards = [
   },
 ];
 
+// Profile Variables
 const profileEditModal = document.querySelector("#edit-modal");
 
 const profileModalContainer =
   profileEditModal.querySelector(".modal__container");
 
 const profileEditButton = document.querySelector(".profile__edit-button");
-
-const addCardButton = document.querySelector(".profile__add-button");
 
 const editModalClose = profileEditModal.querySelector(".modal__close");
 
@@ -46,6 +45,9 @@ const modalInputDescription = document.querySelector(
   ".modal__input-description"
 );
 
+// Add Card Variables
+const addCardButton = document.querySelector(".profile__add-button");
+
 const newPlaceModal = document.querySelector("#add-card-modal");
 
 const newPlaceModalContainer = newPlaceModal.querySelector(".modal__container");
@@ -56,10 +58,12 @@ const newPlaceTitle = newPlaceModal.querySelector(".modal__input-title");
 
 const newPlaceLink = newPlaceModal.querySelector(".modal__input-link");
 
-const cardsContainer = document.querySelector(".locations__cards");
-
+// Card Template Variables
 const cardTemplate = document.querySelector("#locations-card");
 
+const cardsContainer = document.querySelector(".locations__cards");
+
+// Preview Modal Variables
 const previewImageModal = document.querySelector("#preview-image-modal");
 
 const previewImageModalPicture = document.querySelector(".modal__image");
@@ -130,7 +134,7 @@ function getCardElement(data) {
 
 initialCards.forEach(function (cardData) {
   const cardNode = getCardElement(cardData);
-  document.querySelector(".locations__cards").append(cardNode);
+  cardsContainer.append(cardNode);
 });
 
 addCardButton.addEventListener("click", () => openModal(newPlaceModal));
