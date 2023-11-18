@@ -78,18 +78,22 @@
     <!-- Edit Modal -->
     <div class="modal" id="edit-modal">
       <div class="modal__box">
-        <form class="modal__container">
+        <form class="modal__container" novalidate>
           <h3 class="modal__heading">Edit Profile</h3>
           <fieldset class="modal__fieldset">
             <input
               type="text"
               class="modal__input modal__input-name"
-              id="Name"
+              id="name-input"
               name="Name"
               placeholder="Name"
               required
+              minlength="2"
+              maxlength="40"
             />
-
+            <span class="modal__input-error name-input-error"
+              >Please fill out this field.</span
+            >
             <input
               type="text"
               class="modal__input modal__input-description"
@@ -97,6 +101,8 @@
               name="About me"
               placeholder="Description"
               required
+              minlength="2"
+              maxlength="200"
             />
           </fieldset>
           <button class="modal__save" type="submit">Save</button>
@@ -107,7 +113,7 @@
     <!-- Add Card Modal -->
     <div class="modal" id="add-card-modal">
       <div class="modal__box">
-        <form class="modal__container">
+        <form class="modal__container" novalidate>
           <h3 class="modal__heading">New Place</h3>
           <fieldset class="modal__fieldset">
             <input
@@ -117,6 +123,8 @@
               name="image-title"
               placeholder="Title"
               required
+              minlength="1"
+              maxlength="30"
             />
 
             <input

@@ -58,7 +58,7 @@
 .modal__input {
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  margin-bottom: 29.74px;
+  margin-bottom: 0;
   height: 27.26px;
   font-family: "Inter", Arial, sans-serif;
   font-style: normal;
@@ -68,8 +68,23 @@
   color: #000;
 }
 
-.modal__input:last-of-type {
-  margin-bottom: 0;
+.modal__input_type_error {
+  border-bottom-color: #ff0000;
+}
+
+.modal__input-error {
+  color: #ff0000;
+  font-family: "Inter", Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.21;
+  margin: 5px 0 13px 0;
+  visibility: hidden;
+}
+
+.modal__input-error_visible {
+  visibility: visible;
 }
 
 .modal__save {
