@@ -6,7 +6,6 @@ const config = {
   inputErrorClass: "modal__input_type_error",
   errorClass: "modal__input-error_visible",
 };
-//Add disabled button class when created
 
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
@@ -30,13 +29,30 @@ const checkInputValidity = (formElement, inputElement) => {
   }
 };
 
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  });
+};
+
+const toggleButtonState = (inputList, buttonElement) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add(config.inactiveButtonClass);
+  } else {
+    buttonElement.classList.remove(config.inactiveButtonClass);
+  }
+};
+
 const setEventListeners = (formElement) => {
   const inputList = Array.from(
     formElement.querySelectorAll(config.inputSelector)
   );
+  const buttonElement = formElement.querySelector(config.submitButtonSelector);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", () => {
       checkInputValidity(formElement, inputElement);
+
+      toggleButtonState(inputList, buttonElement);
     });
   });
 };
@@ -51,5 +67,6 @@ const enableValidation = () => {
     setEventListeners(formElement);
   });
 };
+
 enableValidation(config);
 console.log(config.formSelector);

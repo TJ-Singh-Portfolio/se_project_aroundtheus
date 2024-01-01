@@ -156,3 +156,16 @@ newPlaceModalContainer.addEventListener("submit", createCard);
 previewImageModalClose.addEventListener("click", () =>
   closeModal(previewImageModal)
 );
+
+profileEditModal.addEventListener("click", (event) => {
+  if (event.target === event.currentTarget) {
+    closeModal(profileEditModal);
+  }
+});
+
+profileEditModal.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeModal(profileEditModal);
+  }
+  console.log(event.key);
+});
