@@ -58,6 +58,8 @@ const newPlaceTitle = newPlaceModal.querySelector(".modal__input-title");
 
 const newPlaceLink = newPlaceModal.querySelector(".modal__input-link");
 
+const newPlaceButton = newPlaceModalContainer.querySelector(".modal__save");
+
 // Card Template Variables
 const cardTemplate = document.querySelector("#locations-card");
 
@@ -149,6 +151,8 @@ function createCard(event) {
   cardsContainer.prepend(cardElement);
   closeModal(newPlaceModal);
   newPlaceModalContainer.reset();
+  newPlaceButton.disabled = true;
+  newPlaceButton.classList.add("modal__save_disabled");
 }
 
 newPlaceModalContainer.addEventListener("submit", createCard);
@@ -157,15 +161,16 @@ previewImageModalClose.addEventListener("click", () =>
   closeModal(previewImageModal)
 );
 
-profileEditModal.addEventListener("click", (event) => {
-  if (event.target === event.currentTarget) {
-    closeModal(profileEditModal);
+document.addEventListener("click", (event) => {
+  const targetModal = document.querySelector(".modal_opened");
+  if (event.target === targetModal) {
+    closeModal(targetModal);
   }
 });
 
-profileEditModal.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", (event) => {
+  const targetModal = document.querySelector(".modal_opened");
   if (event.key === "Escape") {
-    closeModal(profileEditModal);
+    closeModal(targetModal);
   }
-  console.log(event.key);
 });
