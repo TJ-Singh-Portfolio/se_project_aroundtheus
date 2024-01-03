@@ -77,6 +77,8 @@ const previewImageModalText =
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  document.addEventListener("click", closeModalByClick);
+  document.addEventListener("keydown", closeModalByEscape);
 }
 
 function closeModal(modal) {
@@ -161,16 +163,20 @@ previewImageModalClose.addEventListener("click", () =>
   closeModal(previewImageModal)
 );
 
-document.addEventListener("click", (event) => {
+const closeModalByClick = (event) => {
   const targetModal = document.querySelector(".modal_opened");
   if (event.target === targetModal) {
     closeModal(targetModal);
+    document.removeEventListener("click", closeModalByClick);
+    document.removeEventListener("keydown", closeModalByEscape);
   }
-});
+};
 
-document.addEventListener("keydown", (event) => {
-  const targetModal = document.querySelector(".modal_opened");
+const closeModalByEscape = (event) => {
   if (event.key === "Escape") {
+    const targetModal = document.querySelector(".modal_opened");
     closeModal(targetModal);
+    document.removeEventListener("keydown", closeModalByEscape);
+    document.removeEventListener("click", closeModalByClick);
   }
-});
+};

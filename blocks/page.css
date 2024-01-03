@@ -4,6 +4,7 @@
 
 .page__content {
   max-width: 880px;
+  min-height: 1183px;
   margin: auto;
 }
 
