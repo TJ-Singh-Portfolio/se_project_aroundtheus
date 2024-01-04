@@ -10,6 +10,7 @@
   opacity: 0;
   pointer-events: none;
   transition: visibility 0s 0.5s, opacity 0.5s linear;
+  display: flex;
 }
 
 .modal_opened {
@@ -21,7 +22,6 @@
 
 .modal__box {
   margin: auto;
-  margin-top: 195px;
   height: 330px;
   width: 430px;
   background: #fff;
@@ -137,12 +137,9 @@
 
 .modal__image-preview {
   margin: auto;
-  margin-top: 90px;
   position: relative;
   height: auto;
   width: auto;
-  max-width: 75vw;
-  max-height: 75vh;
 }
 
 .modal__image {
@@ -151,6 +148,7 @@
   height: 100%;
   object-fit: contain;
   max-height: 75vh;
+  max-width: 75vw;
 }
 
 .modal__image-text {
