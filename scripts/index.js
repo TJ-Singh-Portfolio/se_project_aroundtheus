@@ -167,8 +167,7 @@ previewImageModalClose.addEventListener("click", () =>
 
 const closeModalByClick = (event) => {
   if (event.target.classList.contains("modal")) {
-    const targetModal = document.querySelector(".modal_opened");
-    closeModal(targetModal);
+    closeModal(event.target);
   }
 };
 
