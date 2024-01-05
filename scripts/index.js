@@ -83,6 +83,8 @@ function openModal(modal) {
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  document.removeEventListener("click", closeModalByClick);
+  document.removeEventListener("keydown", closeModalByEscape);
 }
 
 function fillProfileForm() {
@@ -164,11 +166,9 @@ previewImageModalClose.addEventListener("click", () =>
 );
 
 const closeModalByClick = (event) => {
-  const targetModal = document.querySelector(".modal_opened");
-  if (event.target === targetModal) {
+  if (event.target === document.querySelector(".modal_opened")) {
+    const targetModal = document.querySelector(".modal_opened");
     closeModal(targetModal);
-    document.removeEventListener("click", closeModalByClick);
-    document.removeEventListener("keydown", closeModalByEscape);
   }
 };
 
@@ -176,7 +176,5 @@ const closeModalByEscape = (event) => {
   if (event.key === "Escape") {
     const targetModal = document.querySelector(".modal_opened");
     closeModal(targetModal);
-    document.removeEventListener("keydown", closeModalByEscape);
-    document.removeEventListener("click", closeModalByClick);
   }
 };
