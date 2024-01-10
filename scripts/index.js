@@ -28,8 +28,7 @@ const initialCards = [
 // Profile Variables
 const profileEditModal = document.querySelector("#edit-modal");
 
-const profileModalContainer =
-  profileEditModal.querySelector(".modal__container");
+const profileModalContainer = document.forms["profile-form"];
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 
@@ -50,7 +49,7 @@ const addCardButton = document.querySelector(".profile__add-button");
 
 const newPlaceModal = document.querySelector("#add-card-modal");
 
-const newPlaceModalContainer = newPlaceModal.querySelector(".modal__container");
+const newPlaceModalContainer = document.forms["card-form"];
 
 const cardModalClose = newPlaceModal.querySelector(".modal__close");
 
@@ -92,9 +91,10 @@ function fillProfileForm() {
   modalInputDescription.value = profileDescription.textContent;
 }
 
-fillProfileForm();
-
-profileEditButton.addEventListener("click", () => openModal(profileEditModal));
+profileEditButton.addEventListener("click", () => {
+  openModal(profileEditModal);
+  fillProfileForm();
+});
 
 editModalClose.addEventListener("click", () => closeModal(profileEditModal));
 
