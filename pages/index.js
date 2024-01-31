@@ -1,3 +1,5 @@
+import { Card } from "../components/Card.js";
+
 const initialCards = [
   {
     name: "Yosemite Valley",
@@ -24,6 +26,15 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
   },
 ];
+
+// Small Test Area
+const oneCard = {
+  name: "Yosemite Valley",
+  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
+};
+
+const testCard = new Card(oneCard, "#locations-card", "handleImageClick");
+console.log(testCard);
 
 // Profile Variables
 const profileEditModal = document.querySelector("#edit-modal");
@@ -87,6 +98,13 @@ modals.forEach((modal) => {
   });
 });
 
+const handleImageClick = (event) => {
+  openModal(previewImageModal);
+  previewImageModalPicture.setAttribute("src", event.target.closest("img").src);
+  previewImageModalPicture.setAttribute("alt", event.target.closest("img").alt);
+  previewImageModalText.textContent = event.target.closest("img").alt;
+};
+
 function openModal(modal) {
   modal.classList.add("modal_opened");
   document.addEventListener("keydown", closeModalByEscape);
@@ -133,11 +151,8 @@ function getCardElement(data) {
     likeButton.classList.toggle("locations__card-like_active");
   });
 
-  cardImage.addEventListener("click", () => {
-    openModal(previewImageModal);
-    previewImageModalPicture.setAttribute("src", data.link);
-    previewImageModalPicture.setAttribute("alt", data.name);
-    previewImageModalText.textContent = data.name;
+  cardImage.addEventListener("click", (event) => {
+    handleImageClick(event);
   });
 
   cardImage.setAttribute("src", data.link);
