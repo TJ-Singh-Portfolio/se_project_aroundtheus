@@ -19,7 +19,9 @@ class Card {
       });
     this._element
       .querySelector(".locations__card-image")
-      .addEventListener("click", () => {});
+      .addEventListener("click", () => {
+        this._handleImageClick(this);
+      });
   }
 
   _deleteCard() {
@@ -43,7 +45,7 @@ class Card {
 
   generateCard() {
     this._element = this._getCardData();
-    this._setEventListeners;
+    this._setEventListeners();
     this._element.querySelector(".locations__card-text").textContent =
       this._cardTitle;
     this._element.querySelector(".locations__card-image").src = this._cardImage;

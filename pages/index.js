@@ -1,4 +1,5 @@
 import { Card } from "../components/Card.js";
+import { FormValidator, settings } from "../components/FormValidator.js";
 
 const initialCards = [
   {
@@ -27,15 +28,6 @@ const initialCards = [
   },
 ];
 
-// Small Test Area
-const oneCard = {
-  name: "Yosemite Valley",
-  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
-};
-
-const testCard = new Card(oneCard, "#locations-card", "handleImageClick");
-console.log(testCard);
-
 // Profile Variables
 const profileEditModal = document.querySelector("#edit-modal");
 
@@ -54,6 +46,8 @@ const modalInputName = document.querySelector(".modal__input-name");
 const modalInputDescription = document.querySelector(
   ".modal__input-description"
 );
+
+const profileSave = profileModalContainer.querySelector(".modal__save");
 
 // Add Card Variables
 const addCardButton = document.querySelector(".profile__add-button");
@@ -87,6 +81,9 @@ const previewImageModalText =
 
 const modals = Array.from(document.querySelectorAll(".modal"));
 
+// Forms Array
+const formArray = Array.from(document.querySelectorAll(".modal__container"));
+
 modals.forEach((modal) => {
   modal.addEventListener("mousedown", (event) => {
     if (event.target.classList.contains("modal_opened")) {
@@ -98,11 +95,11 @@ modals.forEach((modal) => {
   });
 });
 
-const handleImageClick = (event) => {
+const handleImageClick = (object) => {
   openModal(previewImageModal);
-  previewImageModalPicture.setAttribute("src", event.target.closest("img").src);
-  previewImageModalPicture.setAttribute("alt", event.target.closest("img").alt);
-  previewImageModalText.textContent = event.target.closest("img").alt;
+  previewImageModalPicture.src = object._cardImage;
+  previewImageModalPicture.alt = object._cardTitle;
+  previewImageModalText.textContent = object._cardTitle;
 };
 
 function openModal(modal) {
@@ -130,41 +127,16 @@ function updateProfileModal(event) {
   profileName.textContent = modalInputName.value;
   profileDescription.textContent = modalInputDescription.value;
   closeModal(profileEditModal);
+  profileSave.disabled = true;
+  profileSave.classList.add("modal__save_disabled");
 }
 
 profileModalContainer.addEventListener("submit", updateProfileModal);
 
-function getCardElement(data) {
-  const cardElement = cardTemplate.content
-    .cloneNode(true)
-    .querySelector(".locations__card-wrapper");
-  const cardTitle = cardElement.querySelector(".locations__card-text");
-  const cardImage = cardElement.querySelector(".locations__card-image");
-  const likeButton = cardElement.querySelector(".locations__card-like");
-  const deleteButton = cardElement.querySelector(".locations__card-delete");
-
-  deleteButton.addEventListener("click", () => {
-    cardElement.remove();
-  });
-
-  likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("locations__card-like_active");
-  });
-
-  cardImage.addEventListener("click", (event) => {
-    handleImageClick(event);
-  });
-
-  cardImage.setAttribute("src", data.link);
-  cardImage.setAttribute("alt", data.name);
-  cardTitle.textContent = data.name;
-
-  return cardElement;
-}
-
 initialCards.forEach(function (cardData) {
-  const cardNode = getCardElement(cardData);
-  cardsContainer.append(cardNode);
+  const cardNode = new Card(cardData, "#locations-card", handleImageClick);
+  const cardElement = cardNode.generateCard();
+  cardsContainer.append(cardElement);
 });
 
 addCardButton.addEventListener("click", () => openModal(newPlaceModal));
@@ -173,7 +145,11 @@ function createCard(event) {
   event.preventDefault();
   const name = newPlaceTitle.value;
   const link = newPlaceLink.value;
-  const cardElement = getCardElement({ name, link });
+  const cardElement = new Card(
+    { name, link },
+    "#locations-card",
+    handleImageClick
+  ).generateCard();
   cardsContainer.prepend(cardElement);
   closeModal(newPlaceModal);
   newPlaceModalContainer.reset();
@@ -189,3 +165,8 @@ const closeModalByEscape = (event) => {
     closeModal(targetModal);
   }
 };
+
+formArray.forEach((form) => {
+  const newValidator = new FormValidator(settings, form);
+  newValidator.enableValidation();
+});
