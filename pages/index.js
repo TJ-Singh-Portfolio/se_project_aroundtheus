@@ -65,6 +65,8 @@ const newPlaceLink = newPlaceModal.querySelector(".modal__input-link");
 const newPlaceButton = newPlaceModalContainer.querySelector(".modal__save");
 
 // Card Template Variables
+const cardTemplateSelector = "#locations-card";
+
 const cardTemplate = document.querySelector("#locations-card");
 
 const cardsContainer = document.querySelector(".locations__cards");
@@ -120,6 +122,9 @@ function fillProfileForm() {
 profileEditButton.addEventListener("click", () => {
   openModal(profileEditModal);
   fillProfileForm();
+  Array.from(profileEditModal.querySelectorAll("span")).forEach(
+    (item) => (item.textContent = "")
+  );
 });
 
 function updateProfileModal(event) {
@@ -127,14 +132,12 @@ function updateProfileModal(event) {
   profileName.textContent = modalInputName.value;
   profileDescription.textContent = modalInputDescription.value;
   closeModal(profileEditModal);
-  profileSave.disabled = true;
-  profileSave.classList.add("modal__save_disabled");
 }
 
 profileModalContainer.addEventListener("submit", updateProfileModal);
 
 initialCards.forEach(function (cardData) {
-  const cardNode = new Card(cardData, "#locations-card", handleImageClick);
+  const cardNode = new Card(cardData, cardTemplateSelector, handleImageClick);
   const cardElement = cardNode.generateCard();
   cardsContainer.append(cardElement);
 });
@@ -147,14 +150,11 @@ function createCard(event) {
   const link = newPlaceLink.value;
   const cardElement = new Card(
     { name, link },
-    "#locations-card",
+    cardTemplateSelector,
     handleImageClick
   ).generateCard();
   cardsContainer.prepend(cardElement);
   closeModal(newPlaceModal);
-  newPlaceModalContainer.reset();
-  newPlaceButton.disabled = true;
-  newPlaceButton.classList.add("modal__save_disabled");
 }
 
 newPlaceModalContainer.addEventListener("submit", createCard);

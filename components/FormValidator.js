@@ -63,6 +63,20 @@ class FormValidator {
         this._toggleButtonState(inputList, buttonElement);
       });
     });
+    formElement.addEventListener("submit", () => {
+      this.disableSubmitButton();
+    });
+  }
+
+  disableSubmitButton() {
+    this._formElement.querySelector(this._submitButtonSelector).disabled = true;
+    this._formElement
+      .querySelector(this._submitButtonSelector)
+      .classList.add(this._inactiveButtonClass);
+    this._formElement.reset();
+    Array.from(this._formElement.querySelectorAll("span")).forEach(
+      (item) => (item.textContent = "")
+    );
   }
 
   enableValidation(options) {
@@ -74,7 +88,6 @@ class FormValidator {
   }
 }
 
-// Small Test Area
 const settings = {
   formSelector: ".modal__container",
   inputSelector: ".modal__input",
@@ -84,5 +97,4 @@ const settings = {
   errorClass: "modal__input-error_visible",
 };
 
-//const test1 = new FormValidator(config, "hotdog");
 export { FormValidator, settings };
