@@ -97,11 +97,11 @@ modals.forEach((modal) => {
   });
 });
 
-const handleImageClick = (object) => {
+const handleImageClick = ({ title, image }) => {
   openModal(previewImageModal);
-  previewImageModalPicture.src = object._cardImage;
-  previewImageModalPicture.alt = object._cardTitle;
-  previewImageModalText.textContent = object._cardTitle;
+  previewImageModalPicture.src = image;
+  previewImageModalPicture.alt = title;
+  previewImageModalText.textContent = title;
 };
 
 function openModal(modal) {
@@ -122,9 +122,6 @@ function fillProfileForm() {
 profileEditButton.addEventListener("click", () => {
   openModal(profileEditModal);
   fillProfileForm();
-  Array.from(profileEditModal.querySelectorAll("span")).forEach(
-    (item) => (item.textContent = "")
-  );
 });
 
 function updateProfileModal(event) {
@@ -136,10 +133,13 @@ function updateProfileModal(event) {
 
 profileModalContainer.addEventListener("submit", updateProfileModal);
 
+const generateCard = (cardData) => {
+  const card = new Card(cardData, cardTemplateSelector, handleImageClick);
+  return card.generateCard();
+};
+
 initialCards.forEach(function (cardData) {
-  const cardNode = new Card(cardData, cardTemplateSelector, handleImageClick);
-  const cardElement = cardNode.generateCard();
-  cardsContainer.append(cardElement);
+  cardsContainer.append(generateCard(cardData));
 });
 
 addCardButton.addEventListener("click", () => openModal(newPlaceModal));
@@ -148,12 +148,7 @@ function createCard(event) {
   event.preventDefault();
   const name = newPlaceTitle.value;
   const link = newPlaceLink.value;
-  const cardElement = new Card(
-    { name, link },
-    cardTemplateSelector,
-    handleImageClick
-  ).generateCard();
-  cardsContainer.prepend(cardElement);
+  cardsContainer.prepend(generateCard({ name, link }));
   closeModal(newPlaceModal);
 }
 
