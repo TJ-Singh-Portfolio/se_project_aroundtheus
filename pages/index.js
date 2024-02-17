@@ -1,5 +1,7 @@
 import { Card } from "../components/Card.js";
 import { FormValidator, settings } from "../components/FormValidator.js";
+import { Section } from "../components/Section.js";
+import { PopupWithImage } from "../components/PopupWithImage.js";
 
 const initialCards = [
   {
@@ -69,6 +71,8 @@ const cardTemplateSelector = "#locations-card";
 
 const cardTemplate = document.querySelector("#locations-card");
 
+const cardsContainerSelector = ".locations__cards";
+
 const cardsContainer = document.querySelector(".locations__cards");
 
 // Preview Modal Variables
@@ -83,10 +87,13 @@ const previewImageModalText =
 
 const modals = Array.from(document.querySelectorAll(".modal"));
 
+// Form Modals
+//const formModals = document.querySelectorAll(".modal").querySelectorAll(".");
+
 // Forms Array
 const formArray = Array.from(document.querySelectorAll(".modal__container"));
 
-modals.forEach((modal) => {
+/* modals.forEach((modal) => {
   modal.addEventListener("mousedown", (event) => {
     if (event.target.classList.contains("modal_opened")) {
       closeModal(modal);
@@ -95,13 +102,18 @@ modals.forEach((modal) => {
       closeModal(modal);
     }
   });
-});
+}); */
+
+const imagePopup = new PopupWithImage("#preview-image-modal");
+
+imagePopup.setEventListeners();
 
 const handleImageClick = ({ title, image }) => {
-  openModal(previewImageModal);
+  imagePopup.open({ title, image });
+  /* openModal(previewImageModal);
   previewImageModalPicture.src = image;
   previewImageModalPicture.alt = title;
-  previewImageModalText.textContent = title;
+  previewImageModalText.textContent = title; */
 };
 
 function openModal(modal) {
@@ -138,9 +150,23 @@ const generateCard = (cardData) => {
   return card.generateCard();
 };
 
-initialCards.forEach(function (cardData) {
+const cardsList = new Section(
+  {
+    items: initialCards,
+    renderer: (cardItem) => {
+      const card = new Card(cardItem, cardTemplateSelector, handleImageClick);
+      const cardElement = card.generateCard();
+      cardsList.addItem(cardElement);
+    },
+  },
+  cardsContainerSelector
+);
+
+cardsList.renderItems();
+
+/*initialCards.forEach(function (cardData) {
   cardsContainer.append(generateCard(cardData));
-});
+}); */
 
 addCardButton.addEventListener("click", () => openModal(newPlaceModal));
 
@@ -148,7 +174,8 @@ function createCard(event) {
   event.preventDefault();
   const name = newPlaceTitle.value;
   const link = newPlaceLink.value;
-  cardsContainer.prepend(generateCard({ name, link }));
+  cardsList.addItem(generateCard({ name, link }));
+  //cardsContainer.prepend(generateCard({ name, link }));
   closeModal(newPlaceModal);
 }
 
