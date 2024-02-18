@@ -2,6 +2,8 @@ import { Card } from "../components/Card.js";
 import { FormValidator, settings } from "../components/FormValidator.js";
 import { Section } from "../components/Section.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
+import { PopupWithForm } from "../components/PopupWithForm.js";
+import { UserInfo } from "../components/UserInfo.js";
 
 const initialCards = [
   {
@@ -88,7 +90,11 @@ const previewImageModalText =
 const modals = Array.from(document.querySelectorAll(".modal"));
 
 // Form Modals
-//const formModals = document.querySelectorAll(".modal").querySelectorAll(".");
+const formModals = [newPlaceModal, profileEditModal];
+// formModals.push(newPlaceModal);
+// formModals.push(profileEditModal);
+//console.log(formModals);
+//console.log(newPlaceModal.id);
 
 // Forms Array
 const formArray = Array.from(document.querySelectorAll(".modal__container"));
@@ -127,12 +133,17 @@ function closeModal(modal) {
 }
 
 function fillProfileForm() {
-  modalInputName.value = profileName.textContent;
-  modalInputDescription.value = profileDescription.textContent;
+  const userInfo = profileInfo.getUserInfo();
+  modalInputName.value = userInfo.name;
+  modalInputDescription.value = userInfo.job;
 }
 
-profileEditButton.addEventListener("click", () => {
+/* profileEditButton.addEventListener("click", () => {
   openModal(profileEditModal);
+  fillProfileForm();
+}); */
+profileEditButton.addEventListener("click", () => {
+  popupWithForms["edit-modal"].open();
   fillProfileForm();
 });
 
@@ -168,7 +179,10 @@ cardsList.renderItems();
   cardsContainer.append(generateCard(cardData));
 }); */
 
-addCardButton.addEventListener("click", () => openModal(newPlaceModal));
+//addCardButton.addEventListener("click", () => openModal(newPlaceModal));
+addCardButton.addEventListener("click", () =>
+  popupWithForms["add-card-modal"].open()
+);
 
 function createCard(event) {
   event.preventDefault();
@@ -179,7 +193,7 @@ function createCard(event) {
   closeModal(newPlaceModal);
 }
 
-newPlaceModalContainer.addEventListener("submit", createCard);
+//newPlaceModalContainer.addEventListener("submit", createCard);
 
 const closeModalByEscape = (event) => {
   if (event.key === "Escape") {
@@ -191,4 +205,22 @@ const closeModalByEscape = (event) => {
 formArray.forEach((form) => {
   const newValidator = new FormValidator(settings, form);
   newValidator.enableValidation();
+});
+
+const popupWithForms = {};
+
+formModals.forEach((modal) => {
+  const formPopup = new PopupWithForm(`#${modal.id}`, (inputValues) => {
+    //console.log(modal.id);
+    console.log(inputValues);
+  });
+  formPopup.setEventListeners();
+  popupWithForms[modal.id] = formPopup;
+  //console.log(popupWithForms);
+});
+//console.log(popupWithForms["add-card-modal"]);
+
+const profileInfo = new UserInfo({
+  profileName: ".profile__name",
+  profileJob: ".profile__description",
 });
