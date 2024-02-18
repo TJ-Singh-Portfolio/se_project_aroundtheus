@@ -12,7 +12,6 @@ class PopupWithForm extends Popup {
     this.inputValues = {};
     this._inputList.forEach((input) => {
       this.inputValues[input.name] = input.value;
-      console.log(this.inputValues);
       //What may be happening is that the reset() method from FormValidator is running on the form before you can grab the values in the form.
     });
     return this.inputValues;
@@ -21,8 +20,8 @@ class PopupWithForm extends Popup {
     this._formSelector.addEventListener("submit", (event) => {
       event.preventDefault();
       this._handleFormSubmit(this._getInputValues());
+      this._formSelector.reset();
     });
-    this._formSelector.reset();
     super.setEventListeners();
   }
 }
