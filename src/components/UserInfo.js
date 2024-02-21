@@ -5,13 +5,16 @@ class UserInfo {
   }
 
   getUserInfo() {
-    console.log(this._profileName);
+    //console.log(this._profileName);
     return {
       name: this._profileName.textContent,
       job: this._profileJob.textContent,
     };
   }
-  setUserInfo() {}
+  setUserInfo(name, job) {
+    this._profileName.textContent = name;
+    this._profileJob.textContent = job;
+  }
 }
 
 export { UserInfo };

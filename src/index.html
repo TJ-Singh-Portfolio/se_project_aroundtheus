@@ -7,7 +7,7 @@
     <meta name="author" content="TJ Singh" />
     <meta name="keywords" content="Around the U.S." />
     <title>Around the U.S.</title>
-    <link rel="stylesheet" href="./pages/index.css" />
+
     <link rel="shortcut icon" href="./favicon.ico" />
   </head>
   <body>
@@ -15,7 +15,7 @@
       <div class="page__content">
         <header class="header">
           <img
-            src="./images/around-logo.svg"
+            src="<%=require('./images/around-logo.svg')%>"
             alt="Around the U.S."
             class="header__logo"
           />
@@ -23,8 +23,9 @@
         <main class="content">
           <section class="profile">
             <img
-              src="./images/jacques-cousteau.png"
-              alt="Jacques Cousteau"
+              src="<%=require('./images/jacques-cousteau.png')%>"
+              alt="Jacques
+            Cousteau"
               class="profile__image"
             />
             <div class="profile__info">
@@ -53,7 +54,7 @@
                     class="locations__card-image"
                   />
                   <img
-                    src="./images/delete-button.svg"
+                    src="<%=require('./images/delete-button.svg')%>"
                     alt="Delete"
                     class="locations__card-delete"
                   />
@@ -153,7 +154,5 @@
         <p class="modal__image-text"></p>
       </div>
     </div>
-
-    <script src="pages/index.js" type="module" defer></script>
   </body>
 </html>

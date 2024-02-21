@@ -4,6 +4,7 @@ import { Section } from "../components/Section.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { UserInfo } from "../components/UserInfo.js";
+import "./index.css";
 
 const initialCards = [
   {
@@ -147,14 +148,13 @@ profileEditButton.addEventListener("click", () => {
   fillProfileForm();
 });
 
-function updateProfileModal(event) {
-  event.preventDefault();
-  profileName.textContent = modalInputName.value;
-  profileDescription.textContent = modalInputDescription.value;
-  closeModal(profileEditModal);
+function updateProfileModal(inputValues) {
+  //event.preventDefault();
+  profileInfo.setUserInfo(inputValues["Name"], inputValues["About me"]);
+  popupWithForms["edit-modal"].close();
 }
 
-profileModalContainer.addEventListener("submit", updateProfileModal);
+//profileModalContainer.addEventListener("submit", updateProfileModal);
 
 const generateCard = (cardData) => {
   const card = new Card(cardData, cardTemplateSelector, handleImageClick);
@@ -184,13 +184,13 @@ addCardButton.addEventListener("click", () =>
   popupWithForms["add-card-modal"].open()
 );
 
-function createCard(event) {
-  event.preventDefault();
-  const name = newPlaceTitle.value;
-  const link = newPlaceLink.value;
+function createCard(inputValues) {
+  //event.preventDefault();
+  const name = inputValues["image-title"];
+  const link = inputValues["image-link"];
   cardsList.addItem(generateCard({ name, link }));
   //cardsContainer.prepend(generateCard({ name, link }));
-  closeModal(newPlaceModal);
+  popupWithForms["add-card-modal"].close();
 }
 
 //newPlaceModalContainer.addEventListener("submit", createCard);
@@ -211,14 +211,17 @@ const popupWithForms = {};
 
 formModals.forEach((modal) => {
   const formPopup = new PopupWithForm(`#${modal.id}`, (inputValues) => {
-    //console.log(modal.id);
-    console.log(inputValues);
+    modal.id === "add-card-modal"
+      ? createCard(inputValues)
+      : updateProfileModal(inputValues);
+    //console.log(inputValues);
   });
   formPopup.setEventListeners();
   popupWithForms[modal.id] = formPopup;
-  //console.log(popupWithForms);
+  //console.log(modal.id);
 });
-//console.log(popupWithForms["add-card-modal"]);
+//console.log(popupWithForms);
+//console.log(typeof formModals[0].id);
 
 const profileInfo = new UserInfo({
   profileName: ".profile__name",

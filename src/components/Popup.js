@@ -5,15 +5,17 @@ class Popup {
 
   open() {
     this._popupSelector.classList.add("modal_opened");
+    document.addEventListener("keydown", this._handleEscClose);
   }
 
   close() {
     this._popupSelector.classList.remove("modal_opened");
+    document.removeEventListener("keydown", this._handleEscClose);
   }
-  _handleEscClose() {
+  _handleEscClose(event) {
     if (event.key === "Escape") {
-      const targetModal = document.querySelector(".modal_opened");
-      closeModal(targetModal);
+      this.close();
+      console.log(event.key);
     }
   }
   setEventListeners() {
