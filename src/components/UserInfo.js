@@ -5,7 +5,6 @@ class UserInfo {
   }
 
   getUserInfo() {
-    //console.log(this._profileName);
     return {
       name: this._profileName.textContent,
       job: this._profileJob.textContent,
