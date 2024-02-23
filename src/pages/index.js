@@ -149,3 +149,5 @@ const profileInfo = new UserInfo({
   profileName: ".profile__name",
   profileJob: ".profile__description",
 });
+
+console.log(formValidators);

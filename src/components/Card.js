@@ -8,13 +8,9 @@ class Card {
 
   _setEventListeners() {
     this._deleteButton = this._element.querySelector(".locations__card-delete");
-    this._deleteButton.addEventListener("click", () => {
-      this._deleteCard();
-    });
+    this._deleteButton.addEventListener("click", this._deleteCard);
     this._likeButton = this._element.querySelector(".locations__card-like");
-    this._likeButton.addEventListener("click", () => {
-      this._likeCard();
-    });
+    this._likeButton.addEventListener("click", this._likeCard);
     this._cardImage = this._element.querySelector(".locations__card-image");
     this._cardImage.addEventListener("click", () => {
       this._handleImageClick({
@@ -24,14 +20,14 @@ class Card {
     });
   }
 
-  _deleteCard() {
+  _deleteCard = () => {
     this._element.remove();
     this._element = null; // Helps with memory management.
-  }
+  };
 
-  _likeCard() {
+  _likeCard = () => {
     this._likeButton.classList.toggle("locations__card-like_active");
-  }
+  };
 
   _getCardData() {
     const cardTemplate = document.querySelector(this._cardSelector);
@@ -45,8 +41,8 @@ class Card {
   generateCard() {
     this._element = this._getCardData();
     this._setEventListeners();
-    this._element.querySelector(".locations__card-text").textContent =
-      this._cardTitle;
+    this._cardText = this._element.querySelector(".locations__card-text");
+    this._cardText.textContent = this._cardTitle;
     this._cardImage.src = this._cardLink;
     this._cardImage.alt = `Photo of ${this._cardTitle}`;
 
