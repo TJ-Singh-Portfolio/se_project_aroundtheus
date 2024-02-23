@@ -12,17 +12,17 @@ class Popup {
     this._popupSelector.classList.remove("modal_opened");
     document.removeEventListener("keydown", this._handleEscClose);
   }
-  _handleEscClose(event) {
+  _handleEscClose = (event) => {
     if (event.key === "Escape") {
       this.close();
     }
-  }
+  };
   setEventListeners() {
     this._popupSelector.addEventListener("mousedown", (event) => {
-      if (event.target.classList.contains("modal_opened")) {
-        this.close();
-      }
-      if (event.target.classList.contains("modal__close")) {
+      if (
+        event.target.classList.contains("modal_opened") ||
+        event.target.classList.contains("modal__close")
+      ) {
         this.close();
       }
     });

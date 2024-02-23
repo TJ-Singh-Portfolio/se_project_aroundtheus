@@ -71,8 +71,6 @@ class FormValidator {
   }
 
   resetValidation() {
-    // The reset() method is commented out for now because it is getting in the way of the PopupWithForm class.
-    //this._formElement.reset();
     this._toggleButtonState();
     this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);

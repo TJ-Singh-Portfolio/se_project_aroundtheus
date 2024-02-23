@@ -85,6 +85,7 @@ function fillProfileForm() {
 }
 
 profileEditButton.addEventListener("click", () => {
+  formValidators["profile-form"].resetValidation();
   popupWithForms["edit-modal"].open();
   fillProfileForm();
 });
@@ -103,8 +104,7 @@ const cardsList = new Section(
   {
     items: initialCards,
     renderer: (cardItem) => {
-      const card = new Card(cardItem, cardTemplateSelector, handleImageClick);
-      const cardElement = card.generateCard();
+      const cardElement = generateCard(cardItem);
       cardsList.addItem(cardElement);
     },
   },
@@ -113,9 +113,10 @@ const cardsList = new Section(
 
 cardsList.renderItems();
 
-addCardButton.addEventListener("click", () =>
-  popupWithForms["add-card-modal"].open()
-);
+addCardButton.addEventListener("click", () => {
+  formValidators["card-form"].resetValidation();
+  popupWithForms["add-card-modal"].open();
+});
 
 function createCard(inputValues) {
   const name = inputValues["image-title"];
@@ -124,9 +125,12 @@ function createCard(inputValues) {
   popupWithForms["add-card-modal"].close();
 }
 
+const formValidators = {};
+
 formArray.forEach((form) => {
   const newValidator = new FormValidator(settings, form);
   newValidator.enableValidation();
+  formValidators[form.name] = newValidator;
 });
 
 const popupWithForms = {};
