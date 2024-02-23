@@ -62,6 +62,7 @@ const previewImageModalClose = previewImageModal.querySelector(".modal__close");
 const previewImageModalText =
   previewImageModal.querySelector(".modal__image-text");
 
+// Modals
 const modals = Array.from(document.querySelectorAll(".modal"));
 
 // Form Modals
@@ -69,6 +70,11 @@ const formModals = [newPlaceModal, profileEditModal];
 
 // Forms Array
 const formArray = Array.from(document.querySelectorAll(".modal__container"));
+
+// Object Collections
+const formValidators = {};
+
+const popupWithForms = {};
 
 const imagePopup = new PopupWithImage("#preview-image-modal");
 
@@ -125,15 +131,11 @@ function createCard(inputValues) {
   popupWithForms["add-card-modal"].close();
 }
 
-const formValidators = {};
-
 formArray.forEach((form) => {
   const newValidator = new FormValidator(settings, form);
   newValidator.enableValidation();
   formValidators[form.name] = newValidator;
 });
-
-const popupWithForms = {};
 
 formModals.forEach((modal) => {
   const formPopup = new PopupWithForm(`#${modal.id}`, (inputValues) => {
@@ -149,5 +151,3 @@ const profileInfo = new UserInfo({
   profileName: ".profile__name",
   profileJob: ".profile__description",
 });
-
-console.log(formValidators);
