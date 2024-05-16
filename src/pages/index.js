@@ -4,6 +4,7 @@ import { Section } from "../components/Section.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 import { UserInfo } from "../components/UserInfo.js";
+import { Api } from "../components/Api.js";
 import { initialCards } from "../utils/utils.js";
 import "./index.css";
 
@@ -151,3 +152,14 @@ const profileInfo = new UserInfo({
   profileName: ".profile__name",
   profileJob: ".profile__description",
 });
+
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d",
+    "Content-Type": "application/json"
+  }
+});
+
+// Test Area
+console.log(api.editUserInfo());
