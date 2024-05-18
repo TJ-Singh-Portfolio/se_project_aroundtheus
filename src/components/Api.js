@@ -1,7 +1,7 @@
 class Api {
     constructor(options)  {
-        this._baseURL = options.baseURL;
-        this._headers = options._headers;
+        this._baseURL = options.baseUrl;
+        this._headers = options.headers;
         //this._authorization = this._headers.authorization;
     }
 
@@ -21,14 +21,17 @@ class Api {
               });
           }
     
-    addCard() {
+    addCard(name, link) {
         return fetch("https://around-api.en.tripleten-services.com/v1/cards", {
-            method: POST,
+            method: "POST",
             headers: {
                 authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify()
+            body: JSON.stringify({
+                name: name,
+                link: link
+            })
         });
     }
 
@@ -46,10 +49,17 @@ class Api {
             headers: {
                 authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d"
             }
-        });
+        }).then(res => {
+            if (res.ok) {
+                //console.log(res);
+                return res.json();
+            }
+
+            return Promise.reject(`Error ${res.status}`);
+        }).then(res => res).catch(err => console.error(err));
     }
 
-    editUserInfo() {
+    editUserInfo(name, about) {
         return fetch("https://around-api.en.tripleten-services.com/v1/users/me", {
   method: "PATCH",
   headers: {
@@ -57,8 +67,8 @@ class Api {
     "Content-Type": "application/json"
   },
   body: JSON.stringify({
-    name: "Marie Skłodowska Curie",
-    about: "Physicist and Chemist"
+    name: name,
+    about: about
   })
 });
     }

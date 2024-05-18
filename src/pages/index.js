@@ -77,6 +77,16 @@ const formValidators = {};
 
 const popupWithForms = {};
 
+// Logic
+
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d",
+    "Content-Type": "application/json"
+  }
+});
+
 const imagePopup = new PopupWithImage("#preview-image-modal");
 
 imagePopup.setEventListeners();
@@ -84,6 +94,16 @@ imagePopup.setEventListeners();
 const handleImageClick = ({ title, image }) => {
   imagePopup.open({ title, image });
 };
+
+const retrieveProfileInfo = () => {
+  return api.loadUserInfo().then((profileData)=> {
+    //console.log(profileData);
+    profileInfo.setUserInfo(profileData["name"], profileData["about"]);
+  });
+  //console.log(profileData);
+  //console.log(profileData["name"]);
+  //profileInfo.setUserInfo(profileData["name"], profileData["about"]);
+}
 
 function fillProfileForm() {
   const userInfo = profileInfo.getUserInfo();
@@ -99,11 +119,13 @@ profileEditButton.addEventListener("click", () => {
 
 function updateProfileModal(inputValues) {
   profileInfo.setUserInfo(inputValues["Name"], inputValues["About me"]);
+  api.editUserInfo(inputValues["Name"], inputValues["About me"]);
   popupWithForms["edit-modal"].close();
 }
 
 const generateCard = (cardData) => {
   const card = new Card(cardData, cardTemplateSelector, handleImageClick);
+  api.addCard(cardData.name, cardData.link);
   return card.generateCard();
 };
 
@@ -153,13 +175,5 @@ const profileInfo = new UserInfo({
   profileJob: ".profile__description",
 });
 
-const api = new Api({
-  baseUrl: "https://around-api.en.tripleten-services.com/v1",
-  headers: {
-    authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d",
-    "Content-Type": "application/json"
-  }
-});
-
 // Test Area
-console.log(api.editUserInfo());
+retrieveProfileInfo();
