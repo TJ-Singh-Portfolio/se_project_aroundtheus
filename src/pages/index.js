@@ -11,11 +11,17 @@ import "./index.css";
 // Profile Variables
 const profileEditModal = document.querySelector("#edit-modal");
 
+const avatarModal = document.querySelector("#avatar-modal");
+
 const profileModalContainer = document.forms["profile-form"];
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 
 const editModalClose = profileEditModal.querySelector(".modal__close");
+
+const profileAvatar = document.querySelector(".profile__image");
+
+const avatarEditButton = document.querySelector(".profile__avatar-button");
 
 const profileName = document.querySelector(".profile__name");
 
@@ -67,7 +73,7 @@ const previewImageModalText =
 const modals = Array.from(document.querySelectorAll(".modal"));
 
 // Form Modals
-const formModals = [newPlaceModal, profileEditModal];
+const formModals = [newPlaceModal, profileEditModal, avatarModal];
 
 // Forms Array
 const formArray = Array.from(document.querySelectorAll(".modal__container"));
@@ -118,6 +124,16 @@ profileEditButton.addEventListener("click", () => {
   fillProfileForm();
 });
 
+profileAvatar.addEventListener("mouseover", () => {
+  avatarEditButton.classList.add("profile__avatar-button_visible");
+});
+
+profileAvatar.addEventListener("mouseout", () => {
+  avatarEditButton.classList.remove("profile__avatar-button_visible");
+});
+
+//avatarEditButton.addEventListener("click", );
+
 function updateProfileModal(inputValues) {
   profileInfo.setUserInfo(inputValues["Name"], inputValues["About me"]);
   api.editUserInfo(inputValues["Name"], inputValues["About me"]);
@@ -126,7 +142,7 @@ function updateProfileModal(inputValues) {
 
 const generateCard = (cardData) => {
   const card = new Card(cardData, cardTemplateSelector, handleImageClick);
-  api.addCard(cardData.name, cardData.link);
+  api.addCard(cardData["name"], cardData["link"]);
   return card.generateCard();
 };
 
@@ -138,13 +154,16 @@ const getInitialCards = () => {
 }
 // Jorge says to rework Section class to only take a renderer, no items.
 const cardsList = new Section(
-  {
-    items: getInitialCards(),
-    renderer: (cardItem) => {
-      const cardElement = generateCard(cardItem);
-      cardsList.addItem(cardElement);
-    },
-  },
+    {renderer: () => {
+      api.getInitialCards().then(cards => {
+        cards.forEach(card => {
+          const cardElement = generateCard(card);
+          return cardsList.addItem(cardElement);
+        });
+      });
+    }
+    }
+  ,
   cardsContainerSelector
 );
 
@@ -183,5 +202,6 @@ const profileInfo = new UserInfo({
   profileJob: ".profile__description",
 });
 
-// Test Area
+// TEST AREA
 //console.log(getInitialCards());
+console.log(popupWithForms);
