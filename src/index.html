@@ -76,6 +76,21 @@
         </footer>
       </div>
     </div>
+
+    <!-- Avatar Modal -->
+    <div class="modal modal_opened" id="avatar-modal">
+      <div class="modal__box modal__box_avatar">
+        <form class="modal__container" name="avatar-form" novalidate>
+          <h3 class="modal__heading">Change profile picture</h3>
+          <fieldset class="modal__fieldset">
+            <input type="url" class="modal__input modal__input-link" id="avatar-link" name="avatar-link" placeholder="Picture Url" required>
+            <span class="modal__input-error avatar-input-error"></span>
+          </fieldset>
+          <button class="modal__save" type="submit">Save</button>
+        </form>
+        <button class="modal__close" type="button"></button>
+      </div>
+    </div>
     <!-- Edit Modal -->
     <div class="modal" id="edit-modal">
       <div class="modal__box">
@@ -138,6 +153,16 @@
             <span class="modal__input-error image-link-error"></span>
           </fieldset>
           <button class="modal__save" type="submit">Create</button>
+        </form>
+        <button class="modal__close" type="button"></button>
+      </div>
+    </div>
+    <!-- Delete Card Modal -->
+    <div class="modal" id="delete-card-modal">
+      <div class="modal__box modal__box_confirm">
+        <form class="modal__container" name="delete-card-form" novalidate>
+        <h3 class="modal__heading modal__heading_confirm">Are you sure?</h3>
+        <button class="modal__save" type="submit">Yes</button>
         </form>
         <button class="modal__close" type="button"></button>
       </div>

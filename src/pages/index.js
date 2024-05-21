@@ -72,10 +72,12 @@ const formModals = [newPlaceModal, profileEditModal];
 // Forms Array
 const formArray = Array.from(document.querySelectorAll(".modal__container"));
 
-// Object Collections
+// Array and Object Collections
 const formValidators = {};
 
 const popupWithForms = {};
+
+let newInitialCards = [];
 
 // Logic
 
@@ -100,10 +102,9 @@ const retrieveProfileInfo = () => {
     //console.log(profileData);
     profileInfo.setUserInfo(profileData["name"], profileData["about"]);
   });
-  //console.log(profileData);
-  //console.log(profileData["name"]);
-  //profileInfo.setUserInfo(profileData["name"], profileData["about"]);
 }
+
+retrieveProfileInfo();
 
 function fillProfileForm() {
   const userInfo = profileInfo.getUserInfo();
@@ -128,6 +129,13 @@ const generateCard = (cardData) => {
   api.addCard(cardData.name, cardData.link);
   return card.generateCard();
 };
+
+const getInitialCards = () => {
+  return api.getInitialCards().then(card => {
+    console.log(card);
+    return card;
+  });
+}
 
 const cardsList = new Section(
   {
@@ -176,4 +184,4 @@ const profileInfo = new UserInfo({
 });
 
 // Test Area
-retrieveProfileInfo();
+//console.log(getInitialCards());

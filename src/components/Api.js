@@ -16,7 +16,7 @@ class Api {
                   return res.json();
                 }
                 return Promise.reject(`Error: ${res.status}`);
-              }).catch((err) => {
+              }).then(res => res).catch((err) => {
                 console.error(err);
               });
           }
