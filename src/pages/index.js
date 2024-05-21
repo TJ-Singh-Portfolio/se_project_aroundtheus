@@ -136,10 +136,10 @@ const getInitialCards = () => {
     return card;
   });
 }
-
+// Jorge says to rework Section class to only take a renderer, no items.
 const cardsList = new Section(
   {
-    items: initialCards,
+    items: getInitialCards(),
     renderer: (cardItem) => {
       const cardElement = generateCard(cardItem);
       cardsList.addItem(cardElement);
