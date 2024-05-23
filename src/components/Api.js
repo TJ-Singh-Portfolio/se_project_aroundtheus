@@ -36,12 +36,12 @@ class Api {
       }),
     });
   }
-
-  deleteCard() {
+  //Potentially, the template literals could be causing problems.
+  deleteCard(id) {
     return fetch(
-      "https://around-api.en.tripleten-services.com/v1/cards/cardId",
+      `https://around-api.en.tripleten-services.com/v1/cards/${id}`,
       {
-        method: DELETE,
+        method: "DELETE",
         headers: {
           authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d",
         },
@@ -81,7 +81,7 @@ class Api {
     });
   }
 
-  updateProfilePicture() {
+  updateProfilePicture(url) {
     return fetch(
       "https://around-api.en.tripleten-services.com/v1/users/me/avatar",
       {
@@ -91,28 +91,29 @@ class Api {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          avatar: www.hotdog.com, //link to profile picture
+          avatar: url, //link to profile picture
         }),
       }
     );
   }
 
-  toggleCardLike() {
-    // Add logic for determining if card is liked or not
+  likeCard(id) {
     return fetch(
-      "https://around-api.en.tripleten-services.com/v1/cards/cardId/likes",
+      `https://around-api.en.tripleten-services.com/v1/cards/${id}/likes`,
       {
-        method: PUT,
+        method: "PUT",
         headers: {
           authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d",
         },
       }
     );
+  }
 
+  unlikeCard(id) {
     return fetch(
-      "https://around-api.en.tripleten-services.com/v1/cards/cardId/likes",
+      `https://around-api.en.tripleten-services.com/v1/cards/${id}/likes`,
       {
-        method: DELETE,
+        method: "DELETE",
         headers: {
           authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d",
         },

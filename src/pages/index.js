@@ -91,8 +91,8 @@ const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
     authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d",
-    "Content-Type": "application/json"
-  }
+    "Content-Type": "application/json",
+  },
 });
 
 const imagePopup = new PopupWithImage("#preview-image-modal");
@@ -103,12 +103,25 @@ const handleImageClick = ({ title, image }) => {
   imagePopup.open({ title, image });
 };
 
+const handleCardDelete = (id) => {
+  popupWithForms["avatar-modal"].open();
+  api.deleteCard(id);
+};
+
+const handleCardLike = (id) => {
+  if (evt.target.classList.contains("locations__card-like_active")) {
+    return api.likeCard(id);
+  } else {
+    return api.unlikeCard(id);
+  }
+};
+
 const retrieveProfileInfo = () => {
-  return api.loadUserInfo().then((profileData)=> {
+  return api.loadUserInfo().then((profileData) => {
     //console.log(profileData);
     profileInfo.setUserInfo(profileData["name"], profileData["about"]);
   });
-}
+};
 
 retrieveProfileInfo();
 
@@ -128,11 +141,14 @@ profileAvatar.addEventListener("mouseover", () => {
   avatarEditButton.classList.add("profile__avatar-button_visible");
 });
 
-profileAvatar.addEventListener("mouseout", () => {
+/*profileAvatar.addEventListener("mouseout", () => {
   avatarEditButton.classList.remove("profile__avatar-button_visible");
-});
+});*/
 
-//avatarEditButton.addEventListener("click", );
+avatarEditButton.addEventListener("click", () => {
+  //reset the validation before opening it
+  popupWithForms["avatar-modal"].open();
+});
 
 function updateProfileModal(inputValues) {
   profileInfo.setUserInfo(inputValues["Name"], inputValues["About me"]);
@@ -141,29 +157,35 @@ function updateProfileModal(inputValues) {
 }
 
 const generateCard = (cardData) => {
-  const card = new Card(cardData, cardTemplateSelector, handleImageClick);
+  const card = new Card(
+    cardData,
+    cardTemplateSelector,
+    handleImageClick,
+    handleCardDelete,
+    handleCardLike
+  );
   api.addCard(cardData["name"], cardData["link"]);
   return card.generateCard();
 };
 
 const getInitialCards = () => {
-  return api.getInitialCards().then(card => {
+  return api.getInitialCards().then((card) => {
     console.log(card);
     return card;
   });
-}
+};
 // Jorge says to rework Section class to only take a renderer, no items.
 const cardsList = new Section(
-    {renderer: () => {
-      api.getInitialCards().then(cards => {
-        cards.forEach(card => {
+  {
+    renderer: () => {
+      api.getInitialCards().then((cards) => {
+        cards.forEach((card) => {
           const cardElement = generateCard(card);
           return cardsList.addItem(cardElement);
         });
       });
-    }
-    }
-  ,
+    },
+  },
   cardsContainerSelector
 );
 
@@ -189,9 +211,19 @@ formArray.forEach((form) => {
 
 formModals.forEach((modal) => {
   const formPopup = new PopupWithForm(`#${modal.id}`, (inputValues) => {
-    modal.id === "add-card-modal"
+    // I think having a string of if-thens is the way to deal with the new modals.
+    if (modal.id === "add-card-modal") {
+      return createCard(inputValues);
+    }
+    if (modal.id === "edit-modal") {
+      return updateProfileModal(inputValues);
+    }
+    if (modal.id === "avatar-modal") {
+      api.updateProfilePicture(inputValues);
+    }
+    /* modal.id === "add-card-modal"
       ? createCard(inputValues)
-      : updateProfileModal(inputValues);
+      : updateProfileModal(inputValues); */
   });
   formPopup.setEventListeners();
   popupWithForms[modal.id] = formPopup;
@@ -203,5 +235,7 @@ const profileInfo = new UserInfo({
 });
 
 // TEST AREA
-//console.log(getInitialCards());
+//console.log(api.getInitialCards());
 console.log(popupWithForms);
+//api.deleteCard("664e86e08bacc8001af1feae");
+console.log(formArray);

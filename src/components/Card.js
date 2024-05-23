@@ -1,9 +1,19 @@
 class Card {
-  constructor(data, cardSelector, handleImageClick) {
+  constructor(
+    data,
+    cardSelector,
+    handleImageClick,
+    handleCardDelete,
+    handleCardLike
+  ) {
     this._cardTitle = data.name;
     this._cardLink = data.link;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
+    this._id = data._id;
+    this._handleCardDelete = handleCardDelete;
+    this._handleCardLike = handleCardLike;
+    //console.log(this._id);
   }
 
   _setEventListeners() {
@@ -21,12 +31,14 @@ class Card {
   }
 
   _deleteCard = () => {
+    this._handleCardDelete(this._id);
     this._element.remove();
     this._element = null; // Helps with memory management.
   };
 
   _likeCard = () => {
     this._likeButton.classList.toggle("locations__card-like_active");
+    this._handleCardLike(this._id);
   };
 
   _getCardData() {
