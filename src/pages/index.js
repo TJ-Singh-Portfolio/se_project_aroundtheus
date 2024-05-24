@@ -156,12 +156,14 @@ profileAvatar.addEventListener("mouseover", () => {
 avatarEditButton.addEventListener("click", () => {
   //reset the validation before opening it
   formValidators["avatar-form"].resetValidation();
+  popupWithForms["avatar-modal"].resetButtonText();
   popupWithForms["avatar-modal"].open();
 });
 
 const updateProfilePicture = (inputValues) => {
   api.updateProfilePicture(inputValues["avatar-link"]);
   api.loadUserInfo().then((profileData) => {
+    popupWithForms["avatar-modal"].changeButtonText();
     profileInfo.updateUserAvatar(profileData["avatar"]);
   });
   popupWithForms["avatar-modal"].close();
