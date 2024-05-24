@@ -35,10 +35,12 @@ const modalInputDescription = document.querySelector(
 
 const profileSave = profileModalContainer.querySelector(".modal__save");
 
-// Add Card Variables
+// Card Variables
 const addCardButton = document.querySelector(".profile__add-button");
 
 const newPlaceModal = document.querySelector("#add-card-modal");
+
+const deleteCardModal = document.querySelector("#delete-card-modal");
 
 const newPlaceModalContainer = document.forms["card-form"];
 
@@ -73,7 +75,12 @@ const previewImageModalText =
 const modals = Array.from(document.querySelectorAll(".modal"));
 
 // Form Modals
-const formModals = [newPlaceModal, profileEditModal, avatarModal];
+const formModals = [
+  newPlaceModal,
+  profileEditModal,
+  avatarModal,
+  deleteCardModal,
+];
 
 // Forms Array
 const formArray = Array.from(document.querySelectorAll(".modal__container"));
@@ -83,7 +90,7 @@ const formValidators = {};
 
 const popupWithForms = {};
 
-let newInitialCards = [];
+//let newInitialCards = [];
 
 // Logic
 
@@ -104,7 +111,7 @@ const handleImageClick = ({ title, image }) => {
 };
 
 const handleCardDelete = (id) => {
-  popupWithForms["avatar-modal"].open();
+  //popupWithForms["delete-card-modal"].open();
   api.deleteCard(id);
 };
 
@@ -120,6 +127,7 @@ const retrieveProfileInfo = () => {
   return api.loadUserInfo().then((profileData) => {
     //console.log(profileData);
     profileInfo.setUserInfo(profileData["name"], profileData["about"]);
+    profileInfo.updateUserAvatar(profileData["avatar"]);
   });
 };
 
@@ -147,8 +155,17 @@ profileAvatar.addEventListener("mouseover", () => {
 
 avatarEditButton.addEventListener("click", () => {
   //reset the validation before opening it
+  formValidators["avatar-form"].resetValidation();
   popupWithForms["avatar-modal"].open();
 });
+
+const updateProfilePicture = (inputValues) => {
+  api.updateProfilePicture(inputValues["avatar-link"]);
+  api.loadUserInfo().then((profileData) => {
+    profileInfo.updateUserAvatar(profileData["avatar"]);
+  });
+  popupWithForms["avatar-modal"].close();
+};
 
 function updateProfileModal(inputValues) {
   profileInfo.setUserInfo(inputValues["Name"], inputValues["About me"]);
@@ -164,7 +181,7 @@ const generateCard = (cardData) => {
     handleCardDelete,
     handleCardLike
   );
-  api.addCard(cardData["name"], cardData["link"]);
+  //api.addCard(cardData["name"], cardData["link"]);
   return card.generateCard();
 };
 
@@ -200,6 +217,7 @@ function createCard(inputValues) {
   const name = inputValues["image-title"];
   const link = inputValues["image-link"];
   cardsList.addItem(generateCard({ name, link }));
+  api.addCard(inputValues["image-title"], inputValues["image-link"]);
   popupWithForms["add-card-modal"].close();
 }
 
@@ -219,11 +237,13 @@ formModals.forEach((modal) => {
       return updateProfileModal(inputValues);
     }
     if (modal.id === "avatar-modal") {
-      api.updateProfilePicture(inputValues);
+      console.log(inputValues["avatar-link"]);
+      updateProfilePicture(inputValues);
     }
-    /* modal.id === "add-card-modal"
+    //Here, I want to get the id and use that to use the api and card delete functions, but the id is private, and I also don't know how I could do that without using "this".
+    /*modal.id === "add-card-modal"
       ? createCard(inputValues)
-      : updateProfileModal(inputValues); */
+      : updateProfileModal(inputValues);*/
   });
   formPopup.setEventListeners();
   popupWithForms[modal.id] = formPopup;
@@ -232,10 +252,11 @@ formModals.forEach((modal) => {
 const profileInfo = new UserInfo({
   profileName: ".profile__name",
   profileJob: ".profile__description",
+  profileAvatar: ".profile__image",
 });
 
 // TEST AREA
 //console.log(api.getInitialCards());
 console.log(popupWithForms);
 //api.deleteCard("664e86e08bacc8001af1feae");
-console.log(formArray);
+console.log(formValidators);
