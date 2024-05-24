@@ -141,6 +141,7 @@ function fillProfileForm() {
 
 profileEditButton.addEventListener("click", () => {
   formValidators["profile-form"].resetValidation();
+  popupWithForms["edit-modal"].resetButtonText();
   popupWithForms["edit-modal"].open();
   fillProfileForm();
 });
@@ -171,7 +172,9 @@ const updateProfilePicture = (inputValues) => {
 
 function updateProfileModal(inputValues) {
   profileInfo.setUserInfo(inputValues["Name"], inputValues["About me"]);
-  api.editUserInfo(inputValues["Name"], inputValues["About me"]);
+  api.editUserInfo(inputValues["Name"], inputValues["About me"]).then((res) => {
+    popupWithForms["edit-modal"].changeButtonText();
+  });
   popupWithForms["edit-modal"].close();
 }
 
@@ -212,6 +215,7 @@ cardsList.renderItems();
 
 addCardButton.addEventListener("click", () => {
   formValidators["card-form"].resetValidation();
+  popupWithForms["add-card-modal"].resetButtonText();
   popupWithForms["add-card-modal"].open();
 });
 
@@ -219,7 +223,11 @@ function createCard(inputValues) {
   const name = inputValues["image-title"];
   const link = inputValues["image-link"];
   cardsList.addItem(generateCard({ name, link }));
-  api.addCard(inputValues["image-title"], inputValues["image-link"]);
+  api
+    .addCard(inputValues["image-title"], inputValues["image-link"])
+    .then((res) => {
+      popupWithForms["add-card-modal"].changeButtonText();
+    });
   popupWithForms["add-card-modal"].close();
 }
 
@@ -258,7 +266,5 @@ const profileInfo = new UserInfo({
 });
 
 // TEST AREA
-//console.log(api.getInitialCards());
 console.log(popupWithForms);
-//api.deleteCard("664e86e08bacc8001af1feae");
 console.log(formValidators);

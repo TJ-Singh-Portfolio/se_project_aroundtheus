@@ -25,7 +25,7 @@ class PopupWithForm extends Popup {
     });
     super.setEventListeners();
   }
-
+  // Public method to set handleformsubmit
   resetButtonText() {
     this._button.textContent = this._originalButtonText;
   }

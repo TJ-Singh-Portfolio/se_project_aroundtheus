@@ -20,7 +20,6 @@ class UserInfo {
   updateUserAvatar(url) {
     this._profileAvatar.src = url;
     this._profileAvatar.alt = this._profileName.textContent;
-    console.log(this._profileAvatar);
   }
 }
 
