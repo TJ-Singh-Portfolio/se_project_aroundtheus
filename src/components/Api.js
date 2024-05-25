@@ -2,7 +2,6 @@ class Api {
   constructor(options) {
     this._baseURL = options.baseUrl;
     this._headers = options.headers;
-    //this._authorization = this._headers.authorization;
   }
 
   getInitialCards() {
@@ -17,10 +16,7 @@ class Api {
         }
         return Promise.reject(`Error: ${res.status}`);
       })
-      .then((res) => res)
-      .catch((err) => {
-        console.error(err);
-      });
+      .then((res) => res);
   }
 
   addCard(name, link) {
@@ -34,9 +30,15 @@ class Api {
         name: name,
         link: link,
       }),
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
+      .then((res) => res);
   }
-  //Potentially, the template literals could be causing problems.
   deleteCard(id) {
     return fetch(
       `https://around-api.en.tripleten-services.com/v1/cards/${id}`,
@@ -46,7 +48,14 @@ class Api {
           authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d",
         },
       }
-    );
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
+      .then((res) => res);
   }
 
   loadUserInfo() {
@@ -57,14 +66,12 @@ class Api {
     })
       .then((res) => {
         if (res.ok) {
-          //console.log(res);
           return res.json();
         }
 
         return Promise.reject(`Error ${res.status}`);
       })
-      .then((res) => res)
-      .catch((err) => console.error(err));
+      .then((res) => res);
   }
 
   editUserInfo(name, about) {
@@ -78,7 +85,14 @@ class Api {
         name: name,
         about: about,
       }),
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
+      .then((res) => res);
   }
 
   updateProfilePicture(url) {
@@ -91,10 +105,17 @@ class Api {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          avatar: url, //link to profile picture
+          avatar: url,
         }),
       }
-    );
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
+      .then((res) => res);
   }
 
   likeCard(id) {
@@ -106,7 +127,14 @@ class Api {
           authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d",
         },
       }
-    );
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
+      .then((res) => res);
   }
 
   unlikeCard(id) {
@@ -118,7 +146,18 @@ class Api {
           authorization: "d4cadbf6-4b07-471d-8c88-393f36774c1d",
         },
       }
-    );
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Error: ${res.status}`);
+      })
+      .then((res) => res);
+  }
+
+  checkStatus(userInfoFunction, cardsFunction) {
+    return Promise.all([userInfoFunction, cardsFunction]);
   }
 }
 

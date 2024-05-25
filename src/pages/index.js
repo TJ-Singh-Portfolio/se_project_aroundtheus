@@ -3,6 +3,7 @@ import { FormValidator, settings } from "../components/FormValidator.js";
 import { Section } from "../components/Section.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
+import { PopupWithConfirmation } from "../components/PopupWithConfirmation.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { Api } from "../components/Api.js";
 import { initialCards } from "../utils/utils.js";
@@ -75,12 +76,9 @@ const previewImageModalText =
 const modals = Array.from(document.querySelectorAll(".modal"));
 
 // Form Modals
-const formModals = [
-  newPlaceModal,
-  profileEditModal,
-  avatarModal,
-  deleteCardModal,
-];
+const formModals = [newPlaceModal, profileEditModal, avatarModal];
+
+const confirmationModals = [deleteCardModal];
 
 // Forms Array
 const formArray = Array.from(document.querySelectorAll(".modal__container"));
@@ -90,7 +88,9 @@ const formValidators = {};
 
 const popupWithForms = {};
 
-//let newInitialCards = [];
+const confirmationPopups = {};
+
+let cardsOnPage = {};
 
 // Logic
 
@@ -110,25 +110,33 @@ const handleImageClick = ({ title, image }) => {
   imagePopup.open({ title, image });
 };
 
-const handleCardDelete = (id) => {
-  //popupWithForms["delete-card-modal"].open();
-  api.deleteCard(id);
+const handleCardDelete = (card) => {
+  confirmationPopups["delete-card-modal"].open();
+  return id;
 };
 
-const handleCardLike = (id) => {
+const handleCardLike = (id, evt) => {
   if (evt.target.classList.contains("locations__card-like_active")) {
-    return api.likeCard(id);
+    return api.likeCard(id).catch((err) => {
+      console.error(err);
+    });
   } else {
-    return api.unlikeCard(id);
+    return api.unlikeCard(id).catch((err) => {
+      console.error(err);
+    });
   }
 };
 
 const retrieveProfileInfo = () => {
-  return api.loadUserInfo().then((profileData) => {
-    //console.log(profileData);
-    profileInfo.setUserInfo(profileData["name"], profileData["about"]);
-    profileInfo.updateUserAvatar(profileData["avatar"]);
-  });
+  return api
+    .loadUserInfo()
+    .then((profileData) => {
+      profileInfo.setUserInfo(profileData["name"], profileData["about"]);
+      profileInfo.updateUserAvatar(profileData["avatar"]);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 retrieveProfileInfo();
@@ -150,10 +158,6 @@ profileAvatar.addEventListener("mouseover", () => {
   avatarEditButton.classList.add("profile__avatar-button_visible");
 });
 
-/*profileAvatar.addEventListener("mouseout", () => {
-  avatarEditButton.classList.remove("profile__avatar-button_visible");
-});*/
-
 avatarEditButton.addEventListener("click", () => {
   //reset the validation before opening it
   formValidators["avatar-form"].resetValidation();
@@ -162,19 +166,31 @@ avatarEditButton.addEventListener("click", () => {
 });
 
 const updateProfilePicture = (inputValues) => {
-  api.updateProfilePicture(inputValues["avatar-link"]);
-  api.loadUserInfo().then((profileData) => {
-    popupWithForms["avatar-modal"].changeButtonText();
-    profileInfo.updateUserAvatar(profileData["avatar"]);
+  api.updateProfilePicture(inputValues["avatar-link"]).catch((err) => {
+    console.error(err);
   });
+  api
+    .loadUserInfo()
+    .then((profileData) => {
+      popupWithForms["avatar-modal"].changeButtonText();
+      profileInfo.updateUserAvatar(profileData["avatar"]);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   popupWithForms["avatar-modal"].close();
 };
 
 function updateProfileModal(inputValues) {
   profileInfo.setUserInfo(inputValues["Name"], inputValues["About me"]);
-  api.editUserInfo(inputValues["Name"], inputValues["About me"]).then((res) => {
-    popupWithForms["edit-modal"].changeButtonText();
-  });
+  api
+    .editUserInfo(inputValues["Name"], inputValues["About me"])
+    .then((res) => {
+      popupWithForms["edit-modal"].changeButtonText();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
   popupWithForms["edit-modal"].close();
 }
 
@@ -183,29 +199,41 @@ const generateCard = (cardData) => {
     cardData,
     cardTemplateSelector,
     handleImageClick,
-    handleCardDelete,
+    (card) => {
+      confirmationPopups["delete-card-modal"].open();
+      confirmationPopups["delete-card-modal"].setHandleFormSubmit(() => {
+        api
+          .deleteCard(card.getId())
+          .then(() => {
+            card.deleteCard();
+            confirmationPopups["delete-card-modal"].close();
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      });
+    },
     handleCardLike
   );
-  //api.addCard(cardData["name"], cardData["link"]);
+  cardsOnPage[cardData.name] = card;
   return card.generateCard();
 };
 
-const getInitialCards = () => {
-  return api.getInitialCards().then((card) => {
-    console.log(card);
-    return card;
-  });
-};
-// Jorge says to rework Section class to only take a renderer, no items.
 const cardsList = new Section(
   {
     renderer: () => {
-      api.getInitialCards().then((cards) => {
-        cards.forEach((card) => {
-          const cardElement = generateCard(card);
-          return cardsList.addItem(cardElement);
+      api
+        .checkStatus(api.loadUserInfo(), api.getInitialCards())
+        .then((res) => {
+          const cards = res[1];
+          cards.forEach((card) => {
+            const cardElement = generateCard(card);
+            return cardsList.addItem(cardElement);
+          });
+        })
+        .catch((err) => {
+          console.error(err);
         });
-      });
     },
   },
   cardsContainerSelector
@@ -227,6 +255,9 @@ function createCard(inputValues) {
     .addCard(inputValues["image-title"], inputValues["image-link"])
     .then((res) => {
       popupWithForms["add-card-modal"].changeButtonText();
+    })
+    .catch((err) => {
+      console.error(err);
     });
   popupWithForms["add-card-modal"].close();
 }
@@ -239,7 +270,6 @@ formArray.forEach((form) => {
 
 formModals.forEach((modal) => {
   const formPopup = new PopupWithForm(`#${modal.id}`, (inputValues) => {
-    // I think having a string of if-thens is the way to deal with the new modals.
     if (modal.id === "add-card-modal") {
       return createCard(inputValues);
     }
@@ -250,13 +280,15 @@ formModals.forEach((modal) => {
       console.log(inputValues["avatar-link"]);
       updateProfilePicture(inputValues);
     }
-    //Here, I want to get the id and use that to use the api and card delete functions, but the id is private, and I also don't know how I could do that without using "this".
-    /*modal.id === "add-card-modal"
-      ? createCard(inputValues)
-      : updateProfileModal(inputValues);*/
   });
   formPopup.setEventListeners();
   popupWithForms[modal.id] = formPopup;
+});
+
+confirmationModals.forEach((modal) => {
+  const confirmationPopup = new PopupWithConfirmation(`#${modal.id}`);
+  confirmationPopup.setEventListeners();
+  confirmationPopups[modal.id] = confirmationPopup;
 });
 
 const profileInfo = new UserInfo({
@@ -266,5 +298,8 @@ const profileInfo = new UserInfo({
 });
 
 // TEST AREA
+/*
 console.log(popupWithForms);
 console.log(formValidators);
+console.log(cardsOnPage);
+*/

@@ -9,9 +9,6 @@
   position: relative;
 }
 
-.profile__avatar-container:hover {
-}
-
 .profile__image {
   height: 120px;
   width: 120px;

@@ -13,12 +13,12 @@ class Card {
     this._id = data._id;
     this._handleCardDelete = handleCardDelete;
     this._handleCardLike = handleCardLike;
-    //console.log(this._id);
+    this._likeStatus = data.isLiked;
   }
 
   _setEventListeners() {
     this._deleteButton = this._element.querySelector(".locations__card-delete");
-    this._deleteButton.addEventListener("click", this._deleteCard);
+    this._deleteButton.addEventListener("click", this.handleDeleteClick);
     this._likeButton = this._element.querySelector(".locations__card-like");
     this._likeButton.addEventListener("click", this._likeCard);
     this._cardImage = this._element.querySelector(".locations__card-image");
@@ -30,16 +30,31 @@ class Card {
     });
   }
 
-  _deleteCard = () => {
-    this._handleCardDelete(this._id);
+  getId() {
+    return this._id;
+  }
+
+  handleDeleteClick = () => {
+    this._handleCardDelete(this);
+  };
+
+  deleteCard = () => {
     this._element.remove();
     this._element = null; // Helps with memory management.
   };
 
-  _likeCard = () => {
+  _likeCard = (evt) => {
     this._likeButton.classList.toggle("locations__card-like_active");
-    this._handleCardLike(this._id);
+    this._handleCardLike(this._id, evt);
   };
+
+  _setLike() {
+    if (this._likeStatus === true) {
+      this._likeButton.classList.add("locations__card-like_active");
+    } else {
+      this._likeButton.classList.remove("locations__card-like_active");
+    }
+  }
 
   _getCardData() {
     const cardTemplate = document.querySelector(this._cardSelector);
@@ -57,6 +72,7 @@ class Card {
     this._cardText.textContent = this._cardTitle;
     this._cardImage.src = this._cardLink;
     this._cardImage.alt = `Photo of ${this._cardTitle}`;
+    this._setLike();
 
     return this._element;
   }
