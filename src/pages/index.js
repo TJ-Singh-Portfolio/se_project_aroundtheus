@@ -166,10 +166,17 @@ avatarEditButton.addEventListener("click", () => {
 });
 
 const updateProfilePicture = (inputValues) => {
-  api.updateProfilePicture(inputValues["avatar-link"]).catch((err) => {
-    console.error(err);
-  });
   api
+    .updateProfilePicture(inputValues["avatar-link"])
+    .then((res) => {
+      profileInfo.updateUserAvatar(res["avatar"]);
+      popupWithForms["avatar-modal"].changeButtonText();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  //retrieveProfileInfo();
+  /*api
     .loadUserInfo()
     .then((profileData) => {
       popupWithForms["avatar-modal"].changeButtonText();
@@ -177,7 +184,7 @@ const updateProfilePicture = (inputValues) => {
     })
     .catch((err) => {
       console.error(err);
-    });
+    });*/
   popupWithForms["avatar-modal"].close();
 };
 
@@ -278,7 +285,6 @@ formModals.forEach((modal) => {
       return updateProfileModal(inputValues);
     }
     if (modal.id === "avatar-modal") {
-      console.log(inputValues["avatar-link"]);
       updateProfilePicture(inputValues);
     }
   });
