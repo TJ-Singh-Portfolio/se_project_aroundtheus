@@ -250,10 +250,11 @@ addCardButton.addEventListener("click", () => {
 function createCard(inputValues) {
   const name = inputValues["image-title"];
   const link = inputValues["image-link"];
-  cardsList.addItem(generateCard({ name, link }));
+  //cardsList.addItem(generateCard({ name, link }));
   api
     .addCard(inputValues["image-title"], inputValues["image-link"])
     .then((res) => {
+      cardsList.addItem(generateCard(res));
       popupWithForms["add-card-modal"].changeButtonText();
     })
     .catch((err) => {
@@ -300,6 +301,5 @@ const profileInfo = new UserInfo({
 // TEST AREA
 /*
 console.log(popupWithForms);
-console.log(formValidators);
-console.log(cardsOnPage);
-*/
+console.log(formValidators);*/
+//console.log(cardsOnPage);
