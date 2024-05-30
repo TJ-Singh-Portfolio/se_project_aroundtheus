@@ -5,11 +5,41 @@
   align-items: center;
 }
 
+.profile__avatar-container {
+  position: relative;
+}
+
 .profile__image {
   height: 120px;
   width: 120px;
   border-radius: 50%;
   margin-right: 30px;
+  opacity: 100%;
+  transition: opacity 0.5s 0s linear;
+}
+
+.profile__image:hover {
+  opacity: 60%;
+}
+
+.profile__avatar-button {
+  position: absolute;
+  background: transparent url(../images/avatar-edit-button.svg) center no-repeat;
+  border: none;
+  height: 26px;
+  width: 26px;
+  top: 47px;
+  left: 47px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0s 0.5s, opacity 0.5s linear;
+}
+
+.profile__avatar-button_visible {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.5s linear;
 }
 
 .profile__info {
