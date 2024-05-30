@@ -110,23 +110,6 @@ const handleImageClick = ({ title, image }) => {
   imagePopup.open({ title, image });
 };
 
-const handleCardDelete = (card) => {
-  confirmationPopups["delete-card-modal"].open();
-  return id;
-};
-
-const handleCardLike = (id, evt) => {
-  if (evt.target.classList.contains("locations__card-like_active")) {
-    return api.likeCard(id).catch((err) => {
-      console.error(err);
-    });
-  } else {
-    return api.unlikeCard(id).catch((err) => {
-      console.error(err);
-    });
-  }
-};
-
 const retrieveProfileInfo = () => {
   return api
     .loadUserInfo()
@@ -149,7 +132,6 @@ function fillProfileForm() {
 
 profileEditButton.addEventListener("click", () => {
   formValidators["profile-form"].resetValidation();
-  popupWithForms["edit-modal"].resetButtonText();
   popupWithForms["edit-modal"].open();
   fillProfileForm();
 });
@@ -161,44 +143,41 @@ profileAvatar.addEventListener("mouseover", () => {
 avatarEditButton.addEventListener("click", () => {
   //reset the validation before opening it
   formValidators["avatar-form"].resetValidation();
-  popupWithForms["avatar-modal"].resetButtonText();
   popupWithForms["avatar-modal"].open();
 });
 
 const updateProfilePicture = (inputValues) => {
+  popupWithForms["avatar-modal"].changeButtonText();
   api
     .updateProfilePicture(inputValues["avatar-link"])
     .then((res) => {
       profileInfo.updateUserAvatar(res["avatar"]);
-      popupWithForms["avatar-modal"].changeButtonText();
+      popupWithForms["avatar-modal"].close();
+      popupWithForms["avatar-modal"].resetForm();
     })
     .catch((err) => {
       console.error(err);
+    })
+    .finally(() => {
+      popupWithForms["avatar-modal"].resetButtonText();
     });
-  //retrieveProfileInfo();
-  /*api
-    .loadUserInfo()
-    .then((profileData) => {
-      popupWithForms["avatar-modal"].changeButtonText();
-      profileInfo.updateUserAvatar(profileData["avatar"]);
-    })
-    .catch((err) => {
-      console.error(err);
-    });*/
-  popupWithForms["avatar-modal"].close();
 };
 
 function updateProfileModal(inputValues) {
   profileInfo.setUserInfo(inputValues["Name"], inputValues["About me"]);
+  popupWithForms["edit-modal"].changeButtonText();
   api
     .editUserInfo(inputValues["Name"], inputValues["About me"])
     .then((res) => {
-      popupWithForms["edit-modal"].changeButtonText();
+      popupWithForms["edit-modal"].close();
+      popupWithForms["edit-modal"].resetForm();
     })
     .catch((err) => {
       console.error(err);
+    })
+    .finally(() => {
+      popupWithForms["edit-modal"].resetButtonText();
     });
-  popupWithForms["edit-modal"].close();
 }
 
 const generateCard = (cardData) => {
@@ -220,7 +199,27 @@ const generateCard = (cardData) => {
           });
       });
     },
-    handleCardLike
+    (id, card) => {
+      if (card.checkLike()) {
+        return api
+          .unlikeCard(id)
+          .then(() => {
+            card.likeCard();
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else {
+        return api
+          .likeCard(id)
+          .then(() => {
+            card.likeCard();
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    }
   );
   cardsOnPage[cardData.name] = card;
   return card.generateCard();
@@ -230,9 +229,9 @@ const cardsList = new Section(
   {
     renderer: () => {
       api
-        .checkStatus(api.loadUserInfo(), api.getInitialCards())
+        .getInitialCards()
         .then((res) => {
-          const cards = res[1];
+          const cards = res;
           cards.forEach((card) => {
             const cardElement = generateCard(card);
             return cardsList.addItem(cardElement);
@@ -250,24 +249,26 @@ cardsList.renderItems();
 
 addCardButton.addEventListener("click", () => {
   formValidators["card-form"].resetValidation();
-  popupWithForms["add-card-modal"].resetButtonText();
   popupWithForms["add-card-modal"].open();
 });
 
 function createCard(inputValues) {
   const name = inputValues["image-title"];
   const link = inputValues["image-link"];
-  //cardsList.addItem(generateCard({ name, link }));
+  popupWithForms["add-card-modal"].changeButtonText();
   api
-    .addCard(inputValues["image-title"], inputValues["image-link"])
+    .addCard(name, link)
     .then((res) => {
       cardsList.addItem(generateCard(res));
-      popupWithForms["add-card-modal"].changeButtonText();
+      popupWithForms["add-card-modal"].close();
+      popupWithForms["add-card-modal"].resetForm();
     })
     .catch((err) => {
       console.error(err);
+    })
+    .finally(() => {
+      popupWithForms["add-card-modal"].resetButtonText();
     });
-  popupWithForms["add-card-modal"].close();
 }
 
 formArray.forEach((form) => {
@@ -285,7 +286,7 @@ formModals.forEach((modal) => {
       return updateProfileModal(inputValues);
     }
     if (modal.id === "avatar-modal") {
-      updateProfilePicture(inputValues);
+      return updateProfilePicture(inputValues);
     }
   });
   formPopup.setEventListeners();

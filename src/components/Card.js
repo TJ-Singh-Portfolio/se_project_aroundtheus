@@ -20,7 +20,9 @@ class Card {
     this._deleteButton = this._element.querySelector(".locations__card-delete");
     this._deleteButton.addEventListener("click", this.handleDeleteClick);
     this._likeButton = this._element.querySelector(".locations__card-like");
-    this._likeButton.addEventListener("click", this._likeCard);
+    this._likeButton.addEventListener("click", () => {
+      this._handleCardLike(this._id, this);
+    });
     this._cardImage = this._element.querySelector(".locations__card-image");
     this._cardImage.addEventListener("click", () => {
       this._handleImageClick({
@@ -43,10 +45,15 @@ class Card {
     this._element = null; // Helps with memory management.
   };
 
-  _likeCard = (evt) => {
+  likeCard = () => {
     this._likeButton.classList.toggle("locations__card-like_active");
-    this._handleCardLike(this._id, evt);
   };
+
+  checkLike() {
+    return this._likeButton.classList.contains("locations__card-like_active")
+      ? true
+      : false;
+  }
 
   _setLike() {
     if (this._likeStatus === true) {
