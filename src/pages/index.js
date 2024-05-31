@@ -126,8 +126,7 @@ retrieveProfileInfo();
 
 function fillProfileForm() {
   const userInfo = profileInfo.getUserInfo();
-  modalInputName.value = userInfo.name;
-  modalInputDescription.value = userInfo.job;
+  editPopup.setInputValues(userInfo);
 }
 
 profileEditButton.addEventListener("click", () => {

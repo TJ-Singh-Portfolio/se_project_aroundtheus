@@ -7,8 +7,8 @@ class UserInfo {
 
   getUserInfo() {
     return {
-      name: this._profileName.textContent,
-      job: this._profileJob.textContent,
+      Name: this._profileName.textContent,
+      "About me": this._profileJob.textContent,
       avatar: this._profileAvatar,
     };
   }
