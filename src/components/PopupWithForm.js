@@ -28,12 +28,12 @@ class PopupWithForm extends Popup {
     this._form.reset();
   }
 
-  resetButtonText() {
-    this._button.textContent = this._originalButtonText;
-  }
-
-  changeButtonText() {
-    this._button.textContent = "Saving...";
+  renderLoading(isLoading, loadingText = "Saving...") {
+    if (isLoading) {
+      this._button.textContent = loadingText;
+    } else {
+      this._button.textContent = this._originalButtonText;
+    }
   }
 }
 
