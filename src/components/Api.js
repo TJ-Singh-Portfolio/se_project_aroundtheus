@@ -94,6 +94,7 @@ class Api {
     }
     return Promise.reject(`Error: ${res.status}`);
   }
+  // Passed as a reference
 }
 
 export { Api };

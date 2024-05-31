@@ -225,27 +225,29 @@ const generateCard = (cardData) => {
   return card.generateCard();
 };
 
-const cardsList = new Section(
-  {
-    renderer: () => {
-      api
-        .getInitialCards()
-        .then((res) => {
-          const cards = res;
-          cards.forEach((card) => {
-            const cardElement = generateCard(card);
-            return cardsList.addItem(cardElement);
-          });
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-  },
-  cardsContainerSelector
-);
+let cardsList;
 
-cardsList.renderItems();
+api
+  .getInitialCards()
+  .then((cards) => {
+    cardsList = new Section(
+      {
+        items: cards,
+        renderer: (cardData) => {
+          // cards.forEach((card) => {
+          const cardElement = generateCard(cardData);
+          cardsList.addItem(cardElement);
+          //  });
+        },
+      },
+      cardsContainerSelector
+    );
+
+    cardsList.renderItems();
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 addCardButton.addEventListener("click", () => {
   formValidators["card-form"].resetValidation();
